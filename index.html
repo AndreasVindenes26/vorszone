@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VorsZone</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #2b1645, #090909 55%);
+      color: white;
+      padding: 22px;
+    }
+
+    header {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
+    .logo span {
+      color: #ffcf5a;
+    }
+
+    .hero {
+      max-width: 900px;
+      margin: 80px auto 60px;
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #d8c7ff;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 58px;
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      color: #cfcfcf;
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 650px;
+      margin: 0 auto 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 24px;
+      border-radius: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, #ffcf5a, #ff6b6b);
+      color: #111;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .game-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 26px;
+      padding: 24px;
+      min-height: 260px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      transition: 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,207,90,0.6);
+    }
+
+    .info-card {
+      min-height: 190px;
+    }
+
+    .game-icon {
+      font-size: 46px;
+      margin-bottom: 18px;
+    }
+
+    .game-card h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .game-card p {
+      color: #ccc;
+      line-height: 1.5;
+      font-size: 15px;
+      margin-bottom: 22px;
+    }
+
+    .badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,207,90,0.16);
+      color: #ffcf5a;
+      border: 1px solid rgba(255,207,90,0.25);
+    }
+
+    footer {
+      max-width: 1100px;
+      margin: 70px auto 20px;
+      color: #aaa;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      h1 {
+        font-size: 42px;
+      }
+
+      .games {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        margin-top: 55px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 16px;
+      }
+
+      header {
+        padding: 10px 0;
+      }
+
+      .logo {
+        font-size: 24px;
+      }
+
+      .hero {
+        margin: 45px auto 45px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .game-card {
+        padding: 22px;
+        min-height: auto;
+      }
+
+      .section-title {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Vors<span>Zone</span></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="tag">🎉 Drikkeleker rett i nettleseren</div>
+
+      <h1>Gjør vorset bedre</h1>
+
+      <p>
+        VorsZone samler enkle og morsomme partyspill du kan spille rett på mobilen.
+        Ingen app, ingen stress — bare velg et spill og send telefonen rundt.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#spill" class="btn btn-main">Velg spill</a>
+        <a href="#info" class="btn btn-secondary">Hvordan funker det?</a>
+      </div>
+    </section>
+
+    <section class="section" id="spill">
+      <h2 class="section-title">Spill</h2>
+
+      <div class="games">
+
+        <div class="game-card">
+          <div class="badge">Tilgjengelig</div>
+          <div class="game-icon">🥚</div>
+          <h3>EggShot</h3>
+          <p>
+            Trykk på egg etter tur. Noen er trygge, noen gir smell, og noen kan skjule mystery-effekter.
+          </p>
+          <a href="eggshot.html" class="btn btn-main">Spill EggShot</a>
+        </div>
+
+        <div class="game-card">
+          <div class="badge">Tilgjengelig</div>
+          <div class="game-icon">📦</div>
+          <h3>Snusboksleken</h3>
+          <p>
+            Les spørsmålet høyt og kast snusboksen til den du mener passer best.
+            Den som får boksen må drikke og sende videre.
+          </p>
+          <a href="snus.html" class="btn btn-main">Spill Snusboksleken</a>
+        </div>
+
+        <div class="game-card">
+          <div class="badge">Tilgjengelig</div>
+          <div class="game-icon">🔥</div>
+          <h3>Ring of Fire</h3>
+          <p>
+            Klassisk kortlek med regler for hvert kort. Spill med fysisk kortstokk eller bruk digital kortstokk.
+          </p>
+          <a href="ringoffire.html" class="btn btn-main">Spill Ring of Fire</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section" id="info" style="margin-top: 65px;">
+      <h2 class="section-title">Hvordan funker det?</h2>
+
+      <div class="games">
+
+        <div class="game-card info-card">
+          <div class="game-icon">🎮</div>
+          <h3>Velg spill</h3>
+          <p>Finn en lek som passer stemningen.</p>
+        </div>
+
+        <div class="game-card info-card">
+          <div class="game-icon">👥</div>
+          <h3>Sett opp</h3>
+          <p>Legg inn spillere og start på sekunder.</p>
+        </div>
+
+        <div class="game-card info-card">
+          <div class="game-icon">🍻</div>
+          <h3>Spill</h3>
+          <p>Send mobilen rundt og la kaoset begynne.</p>
+        </div>
+
+      </div>
+
+      <p style="margin-top: 25px; text-align:center; color:#888; font-size:13px;">
+        Drikk ansvarlig. 18+
+      </p>
+
+      <p style="margin-top: 6px; text-align:center; color:#777; font-size:12px;">
+        VorsZone oppfordrer ikke til overdrevent alkoholforbruk.
+      </p>
+
+      <p style="margin-top: 10px; text-align:center; color:#666; font-size:12px;">
+        Spillene er inspirert av klassiske selskapsleker.
+      </p>
+
+    </section>
+  </main>
+
+  <footer>
+    © 2026 VorsZone – Partyspill for vors og kvelder med venner.
+    <br><br>
+    <a href="https://vindcorp.no" style="color:#666; text-decoration:none;">
+      Laget av Vindcorp
+    </a>
+  </footer>
+
+</body>
+</html>

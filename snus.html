@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snusboksleken</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #090909, #1c1028, #120817);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      user-select: none;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      padding: 58px 25px 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      text-align: center;
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 24px;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.06);
+      background: rgba(255,255,255,0.18);
+    }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #d8c7ff;
+      margin-bottom: 25px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .card-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      perspective: 1000px;
+    }
+
+    .question-card {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 22%, rgba(255,255,255,0.32), rgba(255,255,255,0.08) 45%, rgba(40,30,50,0.85) 100%);
+      border: 1px solid rgba(255,255,255,0.25);
+      box-shadow:
+        inset 0 12px 20px rgba(255,255,255,0.10),
+        inset 0 -22px 35px rgba(0,0,0,0.35),
+        0 18px 0 rgba(38,29,48,0.95),
+        0 35px 65px rgba(0,0,0,0.65);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 34px;
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      transform: rotateX(10deg);
+      transition: 0.2s;
+    }
+
+    .question-card::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: inset 0 0 30px rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+
+    .question-card::after {
+      content: "";
+      position: absolute;
+      top: 35px;
+      left: 62px;
+      width: 90px;
+      height: 35px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.13);
+      filter: blur(2px);
+      transform: rotate(-18deg);
+      pointer-events: none;
+    }
+
+    .question-card:active {
+      transform: rotateX(10deg) scale(0.96);
+    }
+
+    .question-card.flipOnce {
+      animation: spinBox 0.75s ease;
+    }
+
+    .question {
+      font-size: 22px;
+      font-weight: bold;
+      line-height: 1.3;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .rule {
+      font-size: 14px;
+      color: #d8c7ff;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 10px 14px;
+      border-radius: 999px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hint {
+      margin-top: 28px;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .counter {
+      margin-top: 14px;
+      color: #aaa;
+      font-size: 13px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .counter span {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(135deg, #ffcf5a, #ff6b6b);
+      color: #111;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 15px;
+    }
+
+    button:hover {
+      transform: scale(1.02);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .disclaimer {
+      margin-top: 25px;
+      font-size: 12px;
+      color: #777;
+      line-height: 1.5;
+    }
+
+    @keyframes spinBox {
+      0% { transform: rotateX(10deg) rotateZ(0deg) scale(0.96); }
+      50% { transform: rotateX(16deg) rotateZ(180deg) scale(1.04); }
+      100% { transform: rotateX(10deg) rotateZ(360deg) scale(1); }
+    }
+
+    @media (max-width: 500px) {
+      .question-card {
+        width: 285px;
+        height: 285px;
+        padding: 28px;
+      }
+
+      .question {
+        font-size: 19px;
+      }
+
+      .rule {
+        font-size: 13px;
+      }
+
+      h1 {
+        font-size: 31px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <a href="index.html" class="back-btn">←</a>
+
+    <h1>📦 Snusboksleken</h1>
+
+    <p class="subtitle">
+      Les spørsmålet høyt. Kast snusboksen til den du mener passer best.
+      Den som får boksen gjør straffen og trykker videre.
+    </p>
+
+    <div class="card-wrapper">
+      <div class="question-card" id="questionCard" onclick="nextQuestion()">
+        <div class="question" id="questionText">Hvem chugger raskest?</div>
+        <div class="rule" id="ruleText">Chugg resten.</div>
+      </div>
+    </div>
+
+    <div class="hint">Trykk på boksen for neste spørsmål</div>
+
+    <div class="counter" id="counterText">
+      <span>Brukt: 0</span>
+      <span>Igjen: 50</span>
+    </div>
+
+    <button onclick="nextQuestion()">Neste spørsmål</button>
+    <button class="secondary-btn" onclick="restartGame()">Start på nytt</button>
+
+    <div class="disclaimer">
+      Drikk ansvarlig. 18+. VorsZone oppfordrer ikke til overdrevent alkohol- eller tobakkforbruk.
+    </div>
+
+  </div>
+
+  <script>
+    const questions = [
+      { text: "Hvem chugger raskest?", rule: "Chugg resten." },
+      { text: "Hvem er best på å shotte?", rule: "Ta en shot." },
+      { text: "Hvem er best kledd?", rule: "Bytt et plagg med vedkommende." },
+      { text: "Hvem blir fullest i kveld?", rule: "Ta 2 slurker." },
+      { text: "Hvem er best på dansegulvet?", rule: "Vis moves i 10 sekunder." },
+      { text: "Hvem sovner først?", rule: "Ta 2 slurker." },
+      { text: "Hvem flørter med feil person?", rule: "Ta 2 slurker." },
+      { text: "Hvem er med på alt?", rule: "Ta 2 slurker." },
+      { text: "Hvem mister kontrollen først?", rule: "Ta 2 slurker." },
+      { text: "Hvem er mest happy?", rule: "Gi en klem." },
+      { text: "Hvem får mest fylleangst?", rule: "Ta 3 slurker." },
+      { text: "Hvem sier ikke nei til nach?", rule: "Ta 3 slurker." },
+      { text: "Hvem forsvinner plutselig?", rule: "Ta 2 slurker." },
+      { text: "Hvem havner oftest i kleine situasjoner?", rule: "Ta 3 slurker." },
+      { text: "Hvem er mest klønete?", rule: "Ta 2 slurker." },
+      { text: "Hvem mister stemmen først?", rule: "Ta 2 slurker." },
+      { text: "Hvem har mest konkurranseinstinkt?", rule: "Ta en chugge-konkurranse." },
+      { text: "Hvem blir mest sannsynlig med på en dum idé?", rule: "Ta 2 slurker." },
+      { text: "Hvem blir mest sannsynlig med på en shot?", rule: "Ta en shot sammen." },
+      { text: "Hvem blir mest sannsynlig kveldens hype-man?", rule: "Velg 2 personer som må drikke." },
+      { text: "Hvem har mest smittende latter?", rule: "Ta 3 slurker." },
+      { text: "Hvem har finest øyne?", rule: "Ta 3 slurker." },
+      { text: "Hvem er rommets blikkfang?", rule: "Ta 3 slurker." },
+      { text: "Hvem bruker lengst tid på å gjøre seg klar?", rule: "Ta 2 slurker." },
+      { text: "Hvem ler mest sannsynlig i feil situasjon?", rule: "Ta 2 slurker." },
+      { text: "Hvem hadde blitt arrestert først i en film?", rule: "Ta 2 slurker." },
+      { text: "Hvem hadde passet best inn i en James Bond-film?", rule: "Ta 2 slurker." },
+      { text: "Hvem hadde vært den beste skuespilleren?", rule: "Ta 2 slurker." },
+      { text: "Hvem er mest sannsynlig til å bli lurt?", rule: "Ta 2 slurker." },
+      { text: "Hvem er mest sannsynlig til å bli millionær?", rule: "Ta 2 slurker." },
+      { text: "Hvem kunne du ikke sittet ved siden av på skolen?", rule: "Bytt plass." },
+      { text: "Hvem hadde vært best på speed dating?", rule: "Ta 1 minutt speed date." },
+      { text: "Hvem hadde vært verst å sitte ved siden av på fly?", rule: "Bytt plass." },
+      { text: "Hvem hadde vært best på å starte en trend?", rule: "Ta 2 slurker." },
+      { text: "Hvem er svigermors drøm?", rule: "Ta 2 slurker." },
+      { text: "Hvem følger ikke regler?", rule: "Lag en regel." },
+      { text: "Hvem er best på kjøkkenet?", rule: "Ta 2 slurker." },
+      { text: "Hvem kunne vært bartender?", rule: "Lag en drink til den du fikk boksen av." },
+      { text: "Hvem er best under press?", rule: "Fortell én løgn og én sannhet. Gjettes det feil, må de drikke." },
+      { text: "Hvem hadde vært verst å ha på gruppeprosjekt?", rule: "Ta 2 slurker." },
+      { text: "Hvem klarer ikke å være stille?", rule: "Ikke snakk før du får boksen igjen." },
+      { text: "Hvem ville du byttet liv med i én uke?", rule: "Ta 2 slurker." },
+      { text: "Hvem har best energi i kveld?", rule: "Ta 2 slurker." },
+      { text: "Hvem er minst trygg bak rattet?", rule: "Ta 2 slurker." },
+      { text: "Hvem spanderer mest?", rule: "Ta 2 slurker." },
+      { text: "Hvem har verst ekser?", rule: "Ta 2 slurker." },
+      { text: "Hvem er mest bortgjemt?", rule: "Ta 2 slurker." },
+      { text: "Hvem er best på å holde tale?", rule: "Hold en tale på 30 sekunder." },
+      { text: "Hvem kunne vært Mensa-medlem?", rule: "Ta 2 slurker." },
+      { text: "Hvem er mest kverulant?", rule: "Ta 2 slurker." }
+    ];
+
+    let unusedQuestions = [];
+    let usedCount = 0;
+
+    function startDeck() {
+      unusedQuestions = [...questions];
+      usedCount = 0;
+      updateCounter();
+    }
+
+    function nextQuestion() {
+      const card = document.getElementById("questionCard");
+
+      if (unusedQuestions.length === 0) {
+        document.getElementById("questionText").innerHTML = "Alle kortene er brukt!";
+        document.getElementById("ruleText").innerHTML = "Trykk Start på nytt for ny runde.";
+        return;
+      }
+
+      let randomIndex = Math.floor(Math.random() * unusedQuestions.length);
+      let selected = unusedQuestions[randomIndex];
+
+      unusedQuestions.splice(randomIndex, 1);
+      usedCount++;
+
+      document.getElementById("questionText").innerHTML = selected.text;
+      document.getElementById("ruleText").innerHTML = selected.rule;
+
+      updateCounter();
+
+      card.classList.remove("flipOnce");
+      void card.offsetWidth;
+      card.classList.add("flipOnce");
+    }
+
+    function restartGame() {
+      startDeck();
+
+      document.getElementById("questionText").innerHTML = "Hvem chugger raskest?";
+      document.getElementById("ruleText").innerHTML = "Chugg resten.";
+
+      const card = document.getElementById("questionCard");
+      card.classList.remove("flipOnce");
+      void card.offsetWidth;
+      card.classList.add("flipOnce");
+    }
+
+    function updateCounter() {
+      document.getElementById("counterText").innerHTML =
+        "<span>Brukt: " + usedCount + "</span>" +
+        "<span>Igjen: " + unusedQuestions.length + "</span>";
+    }
+
+    startDeck();
+  </script>
+
+</body>
+</html>

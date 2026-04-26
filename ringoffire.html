@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ring of Fire regler</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #090909, #1c1028, #120817);
+      color: white;
+      padding: 20px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 28px;
+      padding: 58px 25px 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 24px;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #d8c7ff;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .start-box {
+      background: linear-gradient(135deg, rgba(255,207,90,0.16), rgba(255,107,107,0.12));
+      border: 1px solid rgba(255,207,90,0.25);
+      border-radius: 24px;
+      padding: 22px;
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .start-box h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .start-box p {
+      color: #ddd;
+      line-height: 1.5;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 15px 22px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ffcf5a, #ff6b6b);
+      color: #111;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      transform: scale(1.02);
+    }
+
+    .quick-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .info-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .info-card span {
+      display: block;
+      color: #ffcf5a;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .info-card p {
+      color: #ddd;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .rule-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .rule-card h3 {
+      color: #ffcf5a;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .rule-card p {
+      color: #ccc;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .small {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 24px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 650px) {
+      .quick-info,
+      .rules-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .app {
+        padding: 58px 22px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <a href="index.html" class="back-btn">←</a>
+
+    <h1>🔥 Ring of Fire</h1>
+
+    <p class="subtitle">
+      Klassikeren der hvert kort har en regel. Les reglene først, eller gå rett til digital kortstokk.
+    </p>
+
+    <div class="start-box">
+      <h2>Ingen kortstokk?</h2>
+      <p>
+        Bruk den digitale kortstokken. Den trekker tilfeldige kort for dere, så dere bare trenger å følge reglene.
+      </p>
+      <a href="ringkort.html" class="btn">Åpne digital kortstokk</a>
+    </div>
+
+    <div class="quick-info">
+      <div class="info-card">
+        <span>Utstyr</span>
+        <p>Vanlig kortstokk og et glass/flaske i midten. Eller bruk digital kortstokk.</p>
+      </div>
+
+      <div class="info-card">
+        <span>Spillere</span>
+        <p>Passer best for 4 eller flere personer.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Regler</h2>
+
+    <div class="rules-grid">
+
+      <div class="rule-card">
+        <h3>Ess – Waterfall</h3>
+        <p>Alle starter å drikke samtidig. Du kan først stoppe når personen før deg har stoppet.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>2 – Du drikker</h3>
+        <p>Den som trekker kortet tar 2 slurker.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>3 – Del ut</h3>
+        <p>Du kan dele ut 2 slurker til en eller flere personer.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>4 – Jenter</h3>
+        <p>Alle jenter tar en slurk.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>5 – Tommelmester</h3>
+        <p>Du kan legge tommelen på bordet når du vil. Sistemann som følger etter må drikke.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>6 – Gutter</h3>
+        <p>Alle gutter tar en slurk.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>7 – Heaven</h3>
+        <p>Du kan rekke hånden i været når du vil. Sistemann som gjør det samme må drikke.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>8 – Mate</h3>
+        <p>Velg en partner. Hver gang du drikker, må partneren din drikke med deg.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>9 – Rim</h3>
+        <p>Si et ord. Neste spiller må si et rim. Den som ikke klarer det, må drikke.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>10 – Kategori</h3>
+        <p>Velg en kategori. Alle må si noe som passer. Den som feiler, drikker.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>Knekt – Regel</h3>
+        <p>Lag en regel som gjelder videre. Den som bryter regelen, må drikke.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>Dronning – Spørsmål</h3>
+        <p>Man må svare på spørsmål med et nytt spørsmål. Første som feiler, drikker.</p>
+      </div>
+
+      <div class="rule-card">
+        <h3>Konge – Kongens kopp</h3>
+        <p>Alle heller litt i glasset i midten. Den som trekker siste konge må drikke innholdet.</p>
+      </div>
+
+    </div>
+
+    <p class="small">
+      Drikk ansvarlig. Kun for personer over lovlig alder.
+    </p>
+
+  </div>
+
+</body>
+</html>

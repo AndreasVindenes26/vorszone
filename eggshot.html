@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EggShot</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #090909, #1c1028, #120817);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      user-select: none;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      padding: 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      text-align: center;
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      margin: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 24px;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.06);
+      background: rgba(255,255,255,0.18);
+    }
+
+    .sound-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      margin: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #d8c7ff;
+      margin-bottom: 25px;
+      font-size: 15px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      color: #eee;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      outline: none;
+      font-size: 17px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      margin-bottom: 8px;
+      user-select: text;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 15px;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(135deg, #ffcf5a, #ff6b6b);
+      color: #111;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      touch-action: manipulation;
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 15px;
+    }
+
+    .danger-btn {
+      background: rgba(255, 80, 80, 0.2);
+      color: #ff9b9b;
+      border: 1px solid rgba(255, 80, 80, 0.4);
+      font-size: 15px;
+    }
+
+    button:hover {
+      transform: scale(1.02);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .name-box,
+    .mystery-box {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .name-title {
+      text-align: left;
+      color: #d8c7ff;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .toggle-row span {
+      font-size: 14px;
+      color: #eee;
+      text-align: left;
+    }
+
+    .toggle-row input {
+      width: 22px;
+      height: 22px;
+      margin: 0;
+      cursor: pointer;
+      accent-color: #ffcf5a;
+    }
+
+    .playerBox {
+      margin-bottom: 20px;
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.2);
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .playerLabel {
+      font-size: 12px;
+      color: #d8c7ff;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .playerName {
+      font-size: 28px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .info {
+      color: #d8c7ff;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .egg-area {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .egg {
+      height: 95px;
+      border-radius: 50% 50% 45% 45%;
+      background: linear-gradient(145deg, #fff7d6, #ffd36b);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 38px;
+      cursor: pointer;
+      box-shadow: inset -5px -8px 12px rgba(0,0,0,0.15),
+                  0 8px 20px rgba(0,0,0,0.35);
+      transition: 0.2s;
+      user-select: none;
+      touch-action: manipulation;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .egg:hover {
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    .egg:active {
+      transform: scale(0.97);
+    }
+
+    .egg.cracking {
+      animation: eggShake 0.32s ease;
+    }
+
+    .egg.cracked {
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 0 16px rgba(255,255,255,0.08);
+      transform: scale(1);
+      cursor: default;
+      animation: softPop 0.25s ease;
+      pointer-events: none;
+      font-size: 34px;
+    }
+
+    .egg.drink-egg {
+      background: radial-gradient(circle, rgba(255,118,118,0.24), rgba(255,255,255,0.07));
+      box-shadow: 0 0 20px rgba(255, 80, 80, 0.28);
+    }
+
+    .egg.mystery-egg {
+      background: radial-gradient(circle, rgba(216,199,255,0.24), rgba(255,255,255,0.07));
+      box-shadow: 0 0 20px rgba(216,199,255,0.28);
+    }
+
+    .egg.safe-egg {
+      background: radial-gradient(circle, rgba(140,255,176,0.18), rgba(255,255,255,0.07));
+      box-shadow: 0 0 18px rgba(140,255,176,0.18);
+    }
+
+    .result {
+      margin-top: 25px;
+      min-height: 80px;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.3;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .safe {
+      color: #8cffb0;
+    }
+
+    .drink {
+      color: #ff7676;
+      animation: shake 0.35s;
+    }
+
+    .mystery {
+      color: #d8c7ff;
+      animation: shake 0.35s;
+    }
+
+    .small {
+      font-size: 13px;
+      margin-top: 18px;
+      color: #aaa;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      50% { transform: translateX(6px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes eggShake {
+      0% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-5deg) scale(1.02); }
+      50% { transform: rotate(5deg) scale(1.02); }
+      75% { transform: rotate(-3deg) scale(1.01); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    @keyframes softPop {
+      0% { transform: scale(0.96); opacity: 0.75; }
+      60% { transform: scale(1.04); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <a href="index.html" class="back-btn" id="backBtn">←</a>
+    <button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔊</button>
+
+    <div id="startScreen">
+      <h1>🥚 EggShot</h1>
+      <p class="subtitle">Knus egget. Er det glass inni, må du drikke.</p>
+
+      <label>Antall spillere</label>
+      <input id="playersInput" type="number" value="5" min="2">
+
+      <button class="secondary-btn" onclick="toggleNameInputs()">Legg til navn</button>
+
+      <div id="namesBox" class="name-box hidden">
+        <p class="name-title">Spillernavn</p>
+        <div id="namesContainer"></div>
+      </div>
+
+      <label>Antall egg</label>
+      <input id="eggsInput" type="number" value="9" min="3">
+
+      <label>Antall egg med drikke</label>
+      <input id="drinkEggsInput" type="number" value="2" min="1">
+
+      <div class="toggle-row">
+        <span>Legg til mystery eggs</span>
+        <input id="mysteryToggle" type="checkbox" onchange="toggleMysterySettings()">
+      </div>
+
+      <div id="mysterySettings" class="mystery-box hidden">
+        <label>Antall mystery eggs</label>
+        <input id="mysteryEggsInput" type="number" value="2" min="0">
+      </div>
+
+      <button onclick="startGame()">Start spill</button>
+
+      <p class="small">Drikk ansvarlig. Kun for personer over lovlig alder.</p>
+    </div>
+
+    <div id="gameScreen" class="hidden">
+      <h1>🥚</h1>
+
+      <div class="playerBox">
+        <div class="playerLabel">SIN TUR</div>
+        <div class="playerName" id="playerText"></div>
+      </div>
+
+      <p class="info" id="gameInfo"></p>
+
+      <div class="egg-area" id="eggArea"></div>
+
+      <div class="result" id="resultText"></div>
+
+      <button id="playAgainBtn" class="hidden" onclick="playAgain()">Spill på nytt</button>
+      <button class="danger-btn" onclick="restartGame()">Avslutt spill</button>
+    </div>
+
+  </div>
+
+  <script>
+    let players = 5;
+    let totalEggs = 9;
+    let drinkEggs = 2;
+    let mysteryEggs = 0;
+
+    let currentPlayer = 0;
+    let playerNames = [];
+
+    let eggs = [];
+    let canClick = true;
+
+    let audioContext;
+    let soundOn = true;
+
+    function toggleSound() {
+      soundOn = !soundOn;
+      document.getElementById("soundBtn").innerHTML = soundOn ? "🔊" : "🔇";
+    }
+
+    function initAudio() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playTone(frequency, duration, type, volume) {
+      if (!soundOn) return;
+
+      initAudio();
+
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = type;
+      oscillator.frequency.value = frequency;
+
+      gain.gain.setValueAtTime(volume, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + duration);
+    }
+
+    function playCrackSound() {
+      playTone(220, 0.06, "square", 0.08);
+      setTimeout(function() {
+        playTone(140, 0.05, "square", 0.05);
+      }, 60);
+    }
+
+    function playDrinkSound() {
+      playTone(95, 0.18, "sawtooth", 0.12);
+      setTimeout(function() {
+        playTone(60, 0.15, "sawtooth", 0.08);
+      }, 120);
+    }
+
+    function playMysterySound() {
+      playTone(450, 0.08, "sine", 0.08);
+      setTimeout(function() {
+        playTone(650, 0.08, "sine", 0.08);
+      }, 90);
+      setTimeout(function() {
+        playTone(850, 0.1, "sine", 0.08);
+      }, 180);
+    }
+
+    function toggleNameInputs() {
+      players = Number(document.getElementById("playersInput").value);
+
+      const namesBox = document.getElementById("namesBox");
+      const namesContainer = document.getElementById("namesContainer");
+
+      if (!namesBox.classList.contains("hidden")) {
+        namesBox.classList.add("hidden");
+        namesContainer.innerHTML = "";
+        return;
+      }
+
+      namesBox.classList.remove("hidden");
+      namesContainer.innerHTML = "";
+
+      for (let i = 0; i < players; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "player-name-input";
+        input.placeholder = "Spiller " + (i + 1);
+        namesContainer.appendChild(input);
+      }
+    }
+
+    function toggleMysterySettings() {
+      const mysteryToggle = document.getElementById("mysteryToggle");
+      const mysterySettings = document.getElementById("mysterySettings");
+
+      if (mysteryToggle.checked) {
+        mysterySettings.classList.remove("hidden");
+      } else {
+        mysterySettings.classList.add("hidden");
+      }
+    }
+
+    function startGame() {
+      initAudio();
+
+      players = Number(document.getElementById("playersInput").value);
+      totalEggs = Number(document.getElementById("eggsInput").value);
+      drinkEggs = Number(document.getElementById("drinkEggsInput").value);
+
+      if (document.getElementById("mysteryToggle").checked) {
+        mysteryEggs = Number(document.getElementById("mysteryEggsInput").value);
+      } else {
+        mysteryEggs = 0;
+      }
+
+      const nameInputs = document.querySelectorAll(".player-name-input");
+      playerNames = [];
+
+      for (let i = 0; i < players; i++) {
+        if (nameInputs[i] && nameInputs[i].value.trim() !== "") {
+          playerNames.push(nameInputs[i].value.trim());
+        } else {
+          playerNames.push("Spiller " + (i + 1));
+        }
+      }
+
+      if (drinkEggs + mysteryEggs >= totalEggs) {
+        alert("Drikkeegg + mystery eggs må være færre enn totalt antall egg!");
+        return;
+      }
+
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("gameScreen").classList.remove("hidden");
+      document.getElementById("backBtn").classList.add("hidden");
+
+      currentPlayer = 0;
+      canClick = true;
+
+      document.getElementById("resultText").innerHTML = "";
+      document.getElementById("playAgainBtn").classList.add("hidden");
+
+      createEggs();
+      updateText();
+    }
+
+    function createEggs() {
+      eggs = [];
+
+      for (let i = 0; i < totalEggs; i++) {
+        eggs.push({
+          type: "safe",
+          used: false,
+          shown: "🥚",
+          className: ""
+        });
+      }
+
+      addRandomEggs("drink", drinkEggs);
+      addRandomEggs("mystery", mysteryEggs);
+
+      showEggs();
+    }
+
+    function addRandomEggs(type, amount) {
+      let added = 0;
+
+      while (added < amount) {
+        let i = Math.floor(Math.random() * totalEggs);
+
+        if (eggs[i].type === "safe") {
+          eggs[i].type = type;
+          added++;
+        }
+      }
+    }
+
+    function countRemainingEggs() {
+      let count = 0;
+
+      for (let i = 0; i < eggs.length; i++) {
+        if (eggs[i].used === false) {
+          count++;
+        }
+      }
+
+      return count;
+    }
+
+    function showEggs() {
+      const eggArea = document.getElementById("eggArea");
+      eggArea.innerHTML = "";
+
+      for (let i = 0; i < eggs.length; i++) {
+        const egg = document.createElement("div");
+        egg.className = "egg";
+        egg.innerHTML = eggs[i].shown;
+
+        if (eggs[i].used) {
+          egg.classList.add("cracked");
+
+          if (eggs[i].className !== "") {
+            egg.classList.add(eggs[i].className);
+          }
+        } else {
+          egg.onclick = function() {
+            crackEgg(i, egg);
+          };
+        }
+
+        eggArea.appendChild(egg);
+      }
+    }
+
+    function crackEgg(index, eggElement) {
+      if (!canClick) return;
+      if (eggs[index].used) return;
+
+      canClick = false;
+      document.getElementById("resultText").innerHTML = "";
+
+      let result = eggs[index].type;
+      let samePlayerAgain = false;
+
+      playCrackSound();
+
+      eggElement.classList.add("cracking");
+
+      setTimeout(function() {
+        eggElement.classList.remove("cracking");
+        eggElement.classList.add("cracked");
+
+        if (result === "drink") {
+          eggElement.classList.add("drink-egg");
+          eggElement.innerHTML = "🍺";
+          playDrinkSound();
+
+          eggs[index].shown = "🍺";
+          eggs[index].className = "drink-egg";
+
+          document.getElementById("resultText").innerHTML =
+            "💥 SMELL!<br>" + playerNames[currentPlayer] + " må drikke!";
+          document.getElementById("resultText").className = "result drink";
+        }
+
+        if (result === "safe") {
+          eggElement.classList.add("safe-egg");
+          eggElement.innerHTML = "✅";
+
+          eggs[index].shown = "✅";
+          eggs[index].className = "safe-egg";
+
+          document.getElementById("resultText").innerHTML =
+            "Safe 😮‍💨<br>" + playerNames[currentPlayer] + " slipper å drikke.";
+          document.getElementById("resultText").className = "result safe";
+        }
+
+        if (result === "mystery") {
+          eggElement.classList.add("mystery-egg");
+          eggElement.innerHTML = "❓";
+          playMysterySound();
+
+          eggs[index].shown = "❓";
+          eggs[index].className = "mystery-egg";
+
+          const mysteryEvents = [
+            "😈 Trykk igjen!",
+            "🎯 Velg en som må drikke!",
+            "🍻 Alle tar 1 slurk!"
+          ];
+
+          const randomEvent = mysteryEvents[Math.floor(Math.random() * mysteryEvents.length)];
+
+          if (randomEvent === "😈 Trykk igjen!") {
+            samePlayerAgain = true;
+          }
+
+          document.getElementById("resultText").innerHTML =
+            "❓ MYSTERY EGG!<br>" + randomEvent;
+          document.getElementById("resultText").className = "result mystery";
+        }
+
+        eggs[index].used = true;
+
+        updateText();
+
+        if (countRemainingEggs() === 0) {
+          document.getElementById("playAgainBtn").classList.remove("hidden");
+          return;
+        }
+
+        setTimeout(function() {
+          if (!samePlayerAgain) {
+            currentPlayer = (currentPlayer + 1) % players;
+          }
+
+          canClick = true;
+          updateText();
+          showEggs();
+        }, 1800);
+
+      }, 350);
+    }
+
+    function playAgain() {
+      currentPlayer = 0;
+      canClick = true;
+
+      document.getElementById("resultText").innerHTML = "";
+      document.getElementById("playAgainBtn").classList.add("hidden");
+
+      createEggs();
+      updateText();
+    }
+
+    function updateText() {
+      document.getElementById("playerText").innerHTML =
+        playerNames[currentPlayer];
+
+      document.getElementById("gameInfo").innerHTML =
+        countRemainingEggs() + " egg igjen";
+    }
+
+    function restartGame() {
+      document.getElementById("gameScreen").classList.add("hidden");
+      document.getElementById("startScreen").classList.remove("hidden");
+      document.getElementById("backBtn").classList.remove("hidden");
+
+      document.getElementById("resultText").innerHTML = "";
+      document.getElementById("playAgainBtn").classList.add("hidden");
+
+      canClick = true;
+    }
+  </script>
+
+</body>
+</html>
