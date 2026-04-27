@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overflow</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #090909, #102032, #120817);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      user-select: none;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 650px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      padding: 58px 25px 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      text-align: center;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 24px;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #bfe9ff;
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      color: #eee;
+      font-size: 14px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      outline: none;
+      font-size: 17px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      margin-bottom: 8px;
+      user-select: text;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      background-image: linear-gradient(45deg, transparent 50%, #bfe9ff 50%),
+                        linear-gradient(135deg, #bfe9ff 50%, transparent 50%);
+      background-position: calc(100% - 22px) 20px, calc(100% - 16px) 20px;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    select option {
+      background: #102032;
+      color: white;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 15px;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(135deg, #75e6ff, #4d8dff);
+      color: #07111c;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      touch-action: manipulation;
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 15px;
+    }
+
+    .danger-btn {
+      background: rgba(255, 80, 80, 0.2);
+      color: #ff9b9b;
+      border: 1px solid rgba(255, 80, 80, 0.4);
+      font-size: 15px;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .invisible {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .name-box {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .name-title {
+      text-align: left;
+      color: #bfe9ff;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .player-box {
+      margin-bottom: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .player-label {
+      font-size: 11px;
+      color: #bfe9ff;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+
+    .player-name {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .water-box {
+      width: 235px;
+      height: 320px;
+      margin: 0 auto 18px;
+      border: 4px solid rgba(255,255,255,0.28);
+      border-top: 4px solid rgba(255,255,255,0.55);
+      border-radius: 12px 12px 30px 30px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      box-shadow:
+        inset 0 0 20px rgba(255,255,255,0.08),
+        0 16px 35px rgba(0,0,0,0.45);
+      transition: 0.25s;
+    }
+
+    .water-box.danger {
+      border-color: rgba(255, 105, 105, 0.65);
+      box-shadow:
+        inset 0 0 24px rgba(255,255,255,0.08),
+        0 0 28px rgba(255, 80, 80, 0.28),
+        0 16px 35px rgba(0,0,0,0.45);
+      animation: dangerPulse 0.7s infinite;
+    }
+
+    .danger-line {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      width: 100%;
+      border-top: 2px dashed rgba(255,100,100,0.75);
+      z-index: 4;
+    }
+
+    .water {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 30%;
+      background: linear-gradient(180deg, rgba(117,230,255,0.55), rgba(77,141,255,0.85));
+      transition: height 0.75s ease;
+      z-index: 1;
+    }
+
+    .water::before {
+      content: "";
+      position: absolute;
+      top: -12px;
+      left: -20%;
+      width: 140%;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(180,245,255,0.65);
+      animation: wave 2s infinite ease-in-out;
+    }
+
+    .placed-item {
+      position: absolute;
+      font-size: 28px;
+      z-index: 3;
+      animation: itemSink 0.45s ease;
+    }
+
+    .falling-item {
+      position: absolute;
+      top: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 36px;
+      z-index: 6;
+      animation: dropIn 0.6s ease forwards;
+      pointer-events: none;
+    }
+
+    .overflow-water {
+      position: absolute;
+      top: -5px;
+      left: 0;
+      width: 100%;
+      height: 45px;
+      background: rgba(117,230,255,0.75);
+      z-index: 8;
+      animation: spill 0.7s ease forwards;
+    }
+
+    .items-title {
+      color: #bfe9ff;
+      font-size: 13px;
+      margin: 8px 0 10px;
+    }
+
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+      min-height: 334px;
+    }
+
+    .item {
+      min-height: 76px;
+      padding: 8px 5px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.14);
+      cursor: pointer;
+      transition: background 0.18s, border 0.18s, box-shadow 0.18s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .item.selected {
+      background: rgba(117,230,255,0.18);
+      border: 1px solid rgba(117,230,255,0.65);
+      box-shadow: 0 0 18px rgba(117,230,255,0.28);
+    }
+
+    .item.used {
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .item-icon {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .item-name {
+      font-size: 11px;
+      line-height: 1.1;
+    }
+
+    .place-area {
+      height: 66px;
+      margin-top: 0;
+    }
+
+    .place-area button {
+      margin-top: 14px;
+    }
+
+    .result {
+      height: 42px;
+      margin-top: 8px;
+      font-size: 15px;
+      color: #bfe9ff;
+      line-height: 1.4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .game-over-title {
+      font-size: 46px;
+      color: #75e6ff;
+      margin-bottom: 10px;
+      text-shadow: 0 0 25px rgba(117,230,255,0.35);
+    }
+
+    .penalty-box {
+      margin-top: 18px;
+      padding: 20px 18px;
+      border-radius: 24px;
+      background: rgba(255, 80, 80, 0.13);
+      border: 1px solid rgba(255, 80, 80, 0.35);
+      box-shadow: 0 0 30px rgba(255, 80, 80, 0.18);
+    }
+
+    .penalty-label {
+      font-size: 12px;
+      color: #ffb0b0;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .penalty-text {
+      font-size: 26px;
+      font-weight: bold;
+      color: #ff7676;
+      line-height: 1.3;
+    }
+
+    .small {
+      font-size: 13px;
+      margin-top: 18px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(20px); }
+    }
+
+    @keyframes dropIn {
+      0% { top: -35px; opacity: 0; transform: translateX(-50%) scale(1.2); }
+      70% { opacity: 1; }
+      100% { top: 165px; opacity: 0; transform: translateX(-50%) scale(0.8); }
+    }
+
+    @keyframes itemSink {
+      from { transform: translateY(-25px) scale(1.2); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes spill {
+      0% { transform: translateY(-40px); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(320px); opacity: 0; }
+    }
+
+    @keyframes dangerPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.015); }
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 14px;
+      }
+
+      .app {
+        min-height: 640px;
+        padding: 58px 18px 22px;
+        backdrop-filter: none;
+      }
+
+      .water-box {
+        width: 220px;
+        height: 300px;
+      }
+
+      .items-grid {
+        gap: 8px;
+        min-height: 314px;
+      }
+
+      .item {
+        min-height: 70px;
+      }
+
+      .item-name {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <a href="index.html" class="back-btn">←</a>
+
+    <div id="startScreen">
+      <h1>💦 Overflow</h1>
+      <p class="subtitle">
+        Velg en gjenstand og plasser den i vannet. Vannet stiger etter størrelse og tetthet.
+        Den som får vannet til å renne over taper.
+      </p>
+
+      <label>Antall spillere</label>
+      <select id="playersInput" onchange="refreshNameInputs()"></select>
+
+      <button class="secondary-btn" onclick="toggleNameInputs()">Legg til navn</button>
+
+      <div id="namesBox" class="name-box hidden">
+        <p class="name-title">Spillernavn</p>
+        <div id="namesContainer"></div>
+      </div>
+
+      <button onclick="startGame()">Start runde</button>
+
+      <p class="small">Drikk ansvarlig. Kun for personer over lovlig alder.</p>
+    </div>
+
+    <div id="gameScreen" class="hidden">
+      <div class="player-box">
+        <div class="player-label">SIN TUR</div>
+        <div class="player-name" id="playerText"></div>
+      </div>
+
+      <div class="water-box" id="waterBox">
+        <div class="danger-line"></div>
+        <div class="water" id="water"></div>
+      </div>
+
+      <p class="items-title">Velg en gjenstand</p>
+      <div class="items-grid" id="itemsGrid"></div>
+
+      <div class="place-area">
+        <button id="placeBtn" class="invisible" onclick="placeSelectedItem()">Plasser i vann</button>
+      </div>
+
+      <div class="result" id="resultText"></div>
+
+      <button class="danger-btn" onclick="restartGame()">Avslutt spill</button>
+    </div>
+
+    <div id="gameOverScreen" class="hidden">
+      <div class="game-over-title">💦 OVERFLOW!</div>
+
+      <p class="subtitle" id="loserText"></p>
+
+      <div class="penalty-box">
+        <div class="penalty-label">STRAFF</div>
+        <div class="penalty-text" id="penaltyText"></div>
+      </div>
+
+      <button onclick="playAgain()">Spill igjen</button>
+      <button class="danger-btn" onclick="restartGame()">Tilbake til start</button>
+    </div>
+
+  </div>
+
+  <script>
+    let players = 5;
+    let playerNames = [];
+    let currentPlayer = 0;
+
+    let waterLevel = 30;
+    let maxWaterLevel = 96;
+
+    let selectedIndex = null;
+    let roundItems = [];
+    let gameOver = false;
+
+    const itemBank = [
+      { name: "Mynt", icon: "🪙", volume: 2, density: 8.9 },
+      { name: "Nøkkel", icon: "🔑", volume: 4, density: 7.8 },
+      { name: "Ring", icon: "💍", volume: 3, density: 10.5 },
+      { name: "Lighter", icon: "🔥", volume: 6, density: 0.9 },
+      { name: "Kork", icon: "🍾", volume: 9, density: 0.25 },
+      { name: "Terning", icon: "🎲", volume: 7, density: 1.2 },
+      { name: "Skje", icon: "🥄", volume: 8, density: 7.8 },
+      { name: "Isbit", icon: "🧊", volume: 10, density: 0.92 },
+      { name: "Stein", icon: "🪨", volume: 7, density: 2.6 },
+      { name: "Golfball", icon: "⛳", volume: 20, density: 1.1 },
+      { name: "Snusboks", icon: "📦", volume: 18, density: 0.7 },
+      { name: "AirPods", icon: "🎧", volume: 20, density: 1.1 },
+      { name: "Kortstokk", icon: "🃏", volume: 22, density: 0.8 },
+      { name: "Lommebok", icon: "👛", volume: 26, density: 0.75 },
+      { name: "Mobil", icon: "📱", volume: 32, density: 2.2 },
+      { name: "Kortholder", icon: "💳", volume: 10, density: 1.3 },
+      { name: "Klokke", icon: "⌚", volume: 13, density: 2.4 },
+      { name: "Solbriller", icon: "🕶️", volume: 16, density: 0.6 },
+      { name: "Lip balm", icon: "💄", volume: 8, density: 0.95 },
+      { name: "Krus", icon: "☕", volume: 26, density: 1.7 },
+      { name: "Bilnøkkel", icon: "🚗", volume: 10, density: 1.4 },
+      { name: "Tyggegummi", icon: "🍬", volume: 5, density: 1.2 },
+      { name: "Dice cup", icon: "🥤", volume: 24, density: 0.55 },
+      { name: "Proteinbar", icon: "🍫", volume: 14, density: 1.05 },
+      { name: "USB", icon: "💾", volume: 6, density: 1.3 },
+      { name: "Kort", icon: "🃏", volume: 4, density: 0.7 },
+      { name: "Batteri", icon: "🔋", volume: 11, density: 2.8 },
+      { name: "Tennisball", icon: "🎾", volume: 30, density: 0.35 },
+      { name: "Parfyme", icon: "🧴", volume: 28, density: 1.5 },
+      { name: "Ørepropp", icon: "🎧", volume: 5, density: 0.4 },
+      { name: "Korthus", icon: "🏠", volume: 15, density: 0.25 },
+      { name: "Miniball", icon: "⚽", volume: 34, density: 0.3 },
+      { name: "Skrujern", icon: "🪛", volume: 11, density: 4.8 },
+      { name: "Saks", icon: "✂️", volume: 13, density: 3.1 },
+      { name: "Pokal", icon: "🏆", volume: 32, density: 0.9 },
+      { name: "Bok", icon: "📘", volume: 35, density: 0.85 }
+    ];
+
+    const penalties = [
+      "Ta 1 slurk",
+      "Ta 2 slurker",
+      "Ta 3 slurker",
+      "Ta 4 slurker",
+      "Ta 5 slurker"
+    ];
+
+    function fillSelect(id, min, max, selectedValue) {
+      const select = document.getElementById(id);
+      select.innerHTML = "";
+
+      for (let i = min; i <= max; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.innerHTML = i;
+
+        if (i === selectedValue) {
+          option.selected = true;
+        }
+
+        select.appendChild(option);
+      }
+    }
+
+    function setupSelects() {
+      fillSelect("playersInput", 2, 15, 5);
+    }
+
+    function refreshNameInputs() {
+      const namesBox = document.getElementById("namesBox");
+
+      if (!namesBox.classList.contains("hidden")) {
+        namesBox.classList.add("hidden");
+        document.getElementById("namesContainer").innerHTML = "";
+        toggleNameInputs();
+      }
+    }
+
+    function toggleNameInputs() {
+      players = Number(document.getElementById("playersInput").value);
+
+      const namesBox = document.getElementById("namesBox");
+      const namesContainer = document.getElementById("namesContainer");
+
+      if (!namesBox.classList.contains("hidden")) {
+        namesBox.classList.add("hidden");
+        namesContainer.innerHTML = "";
+        return;
+      }
+
+      namesBox.classList.remove("hidden");
+      namesContainer.innerHTML = "";
+
+      for (let i = 0; i < players; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "player-name-input";
+        input.placeholder = "Spiller " + (i + 1);
+        namesContainer.appendChild(input);
+      }
+    }
+
+    function startGame() {
+      players = Number(document.getElementById("playersInput").value);
+
+      const nameInputs = document.querySelectorAll(".player-name-input");
+      playerNames = [];
+
+      for (let i = 0; i < players; i++) {
+        if (nameInputs[i] && nameInputs[i].value.trim() !== "") {
+          playerNames.push(nameInputs[i].value.trim());
+        } else {
+          playerNames.push("Spiller " + (i + 1));
+        }
+      }
+
+      currentPlayer = 0;
+      waterLevel = 30;
+      selectedIndex = null;
+      gameOver = false;
+
+      roundItems = generateRoundItems();
+
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("gameOverScreen").classList.add("hidden");
+      document.getElementById("gameScreen").classList.remove("hidden");
+
+      document.getElementById("placeBtn").classList.add("invisible");
+      document.getElementById("resultText").innerHTML = "";
+
+      updateWater();
+      updatePlayerText();
+      renderItems();
+      clearPlacedItems();
+    }
+
+    function generateRoundItems() {
+      let copy = [...itemBank];
+      let selected = [];
+      let amount = 16;
+
+      for (let i = 0; i < amount; i++) {
+        let randomIndex = Math.floor(Math.random() * copy.length);
+        let item = copy[randomIndex];
+
+        selected.push({
+          name: item.name,
+          icon: item.icon,
+          volume: item.volume,
+          density: item.density,
+          used: false
+        });
+
+        copy.splice(randomIndex, 1);
+      }
+
+      return selected;
+    }
+
+    function getWaterIncrease(item) {
+      let displacedVolume;
+
+      if (item.density >= 1) {
+        displacedVolume = item.volume;
+      } else {
+        displacedVolume = item.volume * item.density;
+      }
+
+      let increase = displacedVolume * 0.42;
+
+      return Math.max(1, Math.round(increase));
+    }
+
+    function selectItem(index) {
+      if (gameOver) return;
+      if (roundItems[index].used) return;
+
+      selectedIndex = index;
+      renderItems();
+
+      document.getElementById("placeBtn").classList.remove("invisible");
+    }
+
+    function placeSelectedItem() {
+      if (selectedIndex === null) return;
+      if (gameOver) return;
+
+      const item = roundItems[selectedIndex];
+
+      item.used = true;
+
+      animateDrop(item);
+      addPlacedItem(item);
+
+      let increase = getWaterIncrease(item);
+      waterLevel = waterLevel + increase;
+
+      document.getElementById("resultText").innerHTML =
+        item.icon + " " + item.name + " ble plassert i vannet.";
+
+      selectedIndex = null;
+
+      document.getElementById("placeBtn").classList.add("invisible");
+
+      updateWater();
+      renderItems();
+
+      setTimeout(function() {
+        if (waterLevel >= maxWaterLevel) {
+          overflow();
+        } else {
+          currentPlayer = (currentPlayer + 1) % players;
+          updatePlayerText();
+
+          if (allItemsUsed()) {
+            document.getElementById("resultText").innerHTML =
+              "Alle gjenstandene ble brukt uten overflow. Start en ny runde!";
+          }
+        }
+      }, 700);
+    }
+
+    function updateWater() {
+      let visibleLevel = waterLevel;
+
+      if (visibleLevel > 100) {
+        visibleLevel = 100;
+      }
+
+      document.getElementById("water").style.height = visibleLevel + "%";
+
+      const waterBox = document.getElementById("waterBox");
+
+      if (waterLevel >= 82) {
+        waterBox.classList.add("danger");
+      } else {
+        waterBox.classList.remove("danger");
+      }
+    }
+
+    function updatePlayerText() {
+      document.getElementById("playerText").innerHTML = playerNames[currentPlayer];
+    }
+
+    function renderItems() {
+      const grid = document.getElementById("itemsGrid");
+      grid.innerHTML = "";
+
+      for (let i = 0; i < roundItems.length; i++) {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.onclick = function() {
+          selectItem(i);
+        };
+
+        if (roundItems[i].used) {
+          item.classList.add("used");
+        }
+
+        if (selectedIndex === i) {
+          item.classList.add("selected");
+        }
+
+        item.innerHTML =
+          "<div class='item-icon'>" + roundItems[i].icon + "</div>" +
+          "<div class='item-name'>" + roundItems[i].name + "</div>";
+
+        grid.appendChild(item);
+      }
+    }
+
+    function animateDrop(item) {
+      const waterBox = document.getElementById("waterBox");
+      const falling = document.createElement("div");
+
+      falling.className = "falling-item";
+      falling.innerHTML = item.icon;
+
+      waterBox.appendChild(falling);
+
+      setTimeout(function() {
+        falling.remove();
+      }, 700);
+    }
+
+    function addPlacedItem(item) {
+      const waterBox = document.getElementById("waterBox");
+      const placed = document.createElement("div");
+
+      placed.className = "placed-item";
+      placed.innerHTML = item.icon;
+
+      let left = 24 + Math.random() * 160;
+      let bottom = 12 + Math.random() * 125;
+
+      placed.style.left = left + "px";
+      placed.style.bottom = bottom + "px";
+
+      waterBox.appendChild(placed);
+    }
+
+    function clearPlacedItems() {
+      const placedItems = document.querySelectorAll(".placed-item, .falling-item, .overflow-water");
+
+      for (let i = 0; i < placedItems.length; i++) {
+        placedItems[i].remove();
+      }
+
+      document.getElementById("waterBox").classList.remove("danger");
+    }
+
+    function overflow() {
+      gameOver = true;
+
+      const waterBox = document.getElementById("waterBox");
+      const spill = document.createElement("div");
+      spill.className = "overflow-water";
+      waterBox.appendChild(spill);
+
+      setTimeout(function() {
+        let randomPenalty = penalties[Math.floor(Math.random() * penalties.length)];
+
+        document.getElementById("loserText").innerHTML =
+          playerNames[currentPlayer] + " fikk vannet til å renne over.";
+
+        document.getElementById("penaltyText").innerHTML = randomPenalty;
+
+        document.getElementById("gameScreen").classList.add("hidden");
+        document.getElementById("gameOverScreen").classList.remove("hidden");
+      }, 700);
+    }
+
+    function allItemsUsed() {
+      for (let i = 0; i < roundItems.length; i++) {
+        if (!roundItems[i].used) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    function playAgain() {
+      startGame();
+    }
+
+    function restartGame() {
+      document.getElementById("gameScreen").classList.add("hidden");
+      document.getElementById("gameOverScreen").classList.add("hidden");
+      document.getElementById("startScreen").classList.remove("hidden");
+    }
+
+    setupSelects();
+  </script>
+
+</body>
+</html>

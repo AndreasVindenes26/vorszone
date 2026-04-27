@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParPuls</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #090909, #1c1028, #120817);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      user-select: none;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 460px;
+      min-height: 650px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 28px;
+      padding: 58px 25px 25px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 24px;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #d8c7ff;
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      color: #eee;
+      font-size: 14px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      outline: none;
+      font-size: 17px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      margin-bottom: 8px;
+      user-select: text;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      background-image: linear-gradient(45deg, transparent 50%, #d8c7ff 50%),
+                        linear-gradient(135deg, #d8c7ff 50%, transparent 50%);
+      background-position: calc(100% - 22px) 20px, calc(100% - 16px) 20px;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    select option {
+      background: #1c1028;
+      color: white;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 16px;
+      padding: 15px;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(135deg, #ffcf5a, #ff6b6b);
+      color: #111;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      touch-action: manipulation;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .danger-btn {
+      background: rgba(255, 80, 80, 0.2);
+      color: #ff9b9b;
+      border: 1px solid rgba(255, 80, 80, 0.4);
+      font-size: 15px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .team-input-box {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .team-title {
+      text-align: left;
+      color: #d8c7ff;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .turn-box {
+      padding: 15px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      margin-bottom: 14px;
+    }
+
+    .turn-label {
+      color: #d8c7ff;
+      font-size: 11px;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+
+    .turn-team {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .scoreboard {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .scoreboard.two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scoreboard.three {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .score-card {
+      padding: 10px 6px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 13px;
+      overflow: hidden;
+    }
+
+    .score-name {
+      font-weight: bold;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .score-points {
+      color: #ffcf5a;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .card {
+      height: 78px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      cursor: pointer;
+      transition: 0.18s;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    }
+
+    .card.flipped,
+    .card.matched {
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,207,90,0.45);
+      box-shadow: 0 0 18px rgba(255,207,90,0.18);
+    }
+
+    .card.matched {
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .card-back {
+      color: #d8c7ff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .message-box {
+      min-height: 135px;
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.13);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 1.4;
+      font-size: 15px;
+      overflow: hidden;
+    }
+
+    .message-good {
+      color: #ffcf5a;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .message-bad {
+      color: #ff9b9b;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .next-info {
+      display: block;
+      margin-top: 12px;
+      color: #d8c7ff;
+      font-size: 14px;
+      font-weight: normal;
+    }
+
+    .winner-title {
+      font-size: 44px;
+      margin-bottom: 12px;
+      color: #ffcf5a;
+      text-shadow: 0 0 25px rgba(255,207,90,0.35);
+    }
+
+    .winner-box {
+      padding: 22px 18px;
+      border-radius: 24px;
+      background: rgba(255,207,90,0.12);
+      border: 1px solid rgba(255,207,90,0.3);
+      margin-top: 18px;
+    }
+
+    .winner-team {
+      font-size: 28px;
+      font-weight: bold;
+      color: #ffcf5a;
+      margin-bottom: 8px;
+    }
+
+    .loser-penalty {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 80, 80, 0.13);
+      border: 1px solid rgba(255, 80, 80, 0.35);
+      color: #ff9b9b;
+      font-weight: bold;
+      line-height: 1.4;
+    }
+
+    .small {
+      font-size: 13px;
+      margin-top: 18px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 14px;
+        align-items: flex-start;
+      }
+
+      .app {
+        padding: 58px 18px 22px;
+        backdrop-filter: none;
+        min-height: auto;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .card {
+        height: 70px;
+        font-size: 27px;
+        border-radius: 14px;
+      }
+
+      .memory-grid {
+        gap: 8px;
+      }
+
+      .score-card {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .card {
+        height: 62px;
+        font-size: 24px;
+      }
+
+      .memory-grid {
+        gap: 7px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <a href="index.html" class="back-btn">←</a>
+
+    <div id="startScreen">
+      <h1>🧠 ParPuls</h1>
+      <p class="subtitle">
+        Finn par, behold turen og gi straff til de andre lagene.
+        Bommer dere, må eget lag drikke.
+      </p>
+
+      <label>Antall lag</label>
+      <select id="teamCountInput" onchange="updateTeamInputs()">
+        <option value="2">2 lag</option>
+        <option value="3">3 lag</option>
+      </select>
+
+      <label>Brettstørrelse</label>
+      <select id="boardSizeInput">
+        <option value="6">Lite brett – 12 kort</option>
+        <option value="8" selected>Normal – 16 kort</option>
+        <option value="10">Stort – 20 kort</option>
+        <option value="12">Ekstra stort – 24 kort</option>
+      </select>
+
+      <div class="team-input-box">
+        <p class="team-title">Lagnavn</p>
+
+        <input id="teamName0" type="text" placeholder="Lag Rød">
+        <input id="teamName1" type="text" placeholder="Lag Blå">
+        <input id="teamName2" type="text" placeholder="Lag Gul">
+      </div>
+
+      <button onclick="startGame()">Start spill</button>
+
+      <p class="small">Drikk ansvarlig. Kun for personer over lovlig alder.</p>
+    </div>
+
+    <div id="gameScreen" class="hidden">
+      <div class="turn-box">
+        <div class="turn-label">SIN TUR</div>
+        <div class="turn-team" id="turnTeamText"></div>
+      </div>
+
+      <div class="scoreboard" id="scoreboard"></div>
+
+      <div class="memory-grid" id="memoryGrid"></div>
+
+      <div class="message-box" id="messageBox">
+        Velg to kort.
+      </div>
+
+      <button class="danger-btn" onclick="restartGame()">Avslutt spill</button>
+    </div>
+
+    <div id="winnerScreen" class="hidden">
+      <div class="winner-title">🏆 Vinner!</div>
+
+      <div class="winner-box">
+        <div class="winner-team" id="winnerText"></div>
+        <p id="winnerScoreText"></p>
+      </div>
+
+      <div class="loser-penalty" id="loserPenaltyText"></div>
+
+      <button onclick="startGame()">Spill igjen</button>
+      <button class="danger-btn" onclick="restartGame()">Tilbake til start</button>
+    </div>
+
+  </div>
+
+  <script>
+    let teams = [];
+    let teamCount = 2;
+    let currentTeam = 0;
+
+    let cards = [];
+    let firstCard = null;
+    let secondCard = null;
+    let lockBoard = false;
+    let matchesFound = 0;
+    let totalPairs = 8;
+    let shouldClearPenalty = false;
+
+    const icons = ["🍺", "💣", "🔥", "🎲", "🥂", "😈", "🍋", "🕶️", "🧠", "⚡", "🍾", "👑"];
+
+    const hitPunishments = [
+      "Velg én på et annet lag som tar en shot",
+      "Del ut 3 slurker til ett annet lag",
+      "Alle andre lag tar 1 slurk",
+      "Velg én spiller som må drikke 3 slurker",
+      "Ett annet lag må spille med øynene lukket neste runde",
+      "Velg et lag som må ta 2 slurker hver",
+      "Gi bort 5 slurker totalt"
+    ];
+
+    const missPunishments = [
+      "Hele laget tar 1 slurk",
+      "Hele laget tar 2 slurker",
+      "En på laget tar 3 slurker"
+    ];
+
+    const finalPunishments = [
+      "Taperlaget tar 3 slurker hver",
+      "Taperlaget tar 2 slurker hver",
+      "Vinnerlaget deler ut 5 slurker til taperlaget",
+      "Taperlaget tar 1 slurk per match vinnerlaget fikk"
+    ];
+
+    function updateTeamInputs() {
+      teamCount = Number(document.getElementById("teamCountInput").value);
+
+      const thirdInput = document.getElementById("teamName2");
+
+      if (teamCount === 3) {
+        thirdInput.classList.remove("hidden");
+      } else {
+        thirdInput.classList.add("hidden");
+      }
+    }
+
+    function startGame() {
+      teamCount = Number(document.getElementById("teamCountInput").value);
+      totalPairs = Number(document.getElementById("boardSizeInput").value);
+
+      const defaultNames = ["Lag Rød", "Lag Blå", "Lag Gul"];
+      teams = [];
+
+      for (let i = 0; i < teamCount; i++) {
+        let input = document.getElementById("teamName" + i).value.trim();
+
+        if (input === "") {
+          input = defaultNames[i];
+        }
+
+        teams.push({
+          name: input,
+          score: 0
+        });
+      }
+
+      currentTeam = Math.floor(Math.random() * teamCount);
+      firstCard = null;
+      secondCard = null;
+      lockBoard = false;
+      matchesFound = 0;
+      shouldClearPenalty = false;
+
+      createCards();
+
+      document.getElementById("startScreen").classList.add("hidden");
+      document.getElementById("winnerScreen").classList.add("hidden");
+      document.getElementById("gameScreen").classList.remove("hidden");
+
+      updateTurnText();
+      updateScoreboard();
+      renderCards();
+
+      document.getElementById("messageBox").innerHTML =
+        teams[currentTeam].name + " begynner. Velg to kort.";
+    }
+
+    function createCards() {
+      cards = [];
+
+      for (let i = 0; i < totalPairs; i++) {
+        cards.push({
+          icon: icons[i],
+          matched: false,
+          flipped: false
+        });
+
+        cards.push({
+          icon: icons[i],
+          matched: false,
+          flipped: false
+        });
+      }
+
+      for (let i = cards.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let temp = cards[i];
+        cards[i] = cards[j];
+        cards[j] = temp;
+      }
+    }
+
+    function renderCards() {
+      const grid = document.getElementById("memoryGrid");
+      grid.innerHTML = "";
+
+      if (totalPairs >= 10) {
+        grid.style.gap = "8px";
+      } else {
+        grid.style.gap = "10px";
+      }
+
+      for (let i = 0; i < cards.length; i++) {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        if (totalPairs >= 10) {
+          card.style.height = "64px";
+          card.style.fontSize = "25px";
+        } else {
+          card.style.height = "";
+          card.style.fontSize = "";
+        }
+
+        if (cards[i].flipped || cards[i].matched) {
+          card.classList.add("flipped");
+          card.innerHTML = cards[i].icon;
+        } else {
+          card.innerHTML = "<span class='card-back'>?</span>";
+        }
+
+        if (cards[i].matched) {
+          card.classList.add("matched");
+        }
+
+        card.onclick = function() {
+          flipCard(i);
+        };
+
+        grid.appendChild(card);
+      }
+    }
+
+    function flipCard(index) {
+      if (lockBoard) return;
+      if (cards[index].matched) return;
+      if (cards[index].flipped) return;
+
+      if (shouldClearPenalty) {
+        document.getElementById("messageBox").innerHTML =
+          teams[currentTeam].name + " sin tur. Velg to kort.";
+        shouldClearPenalty = false;
+      }
+
+      cards[index].flipped = true;
+
+      if (firstCard === null) {
+        firstCard = index;
+        renderCards();
+        return;
+      }
+
+      secondCard = index;
+      renderCards();
+
+      checkMatch();
+    }
+
+    function checkMatch() {
+      lockBoard = true;
+
+      if (cards[firstCard].icon === cards[secondCard].icon) {
+        setTimeout(function() {
+          handleMatch();
+        }, 500);
+      } else {
+        setTimeout(function() {
+          handleMiss();
+        }, 900);
+      }
+    }
+
+    function handleMatch() {
+      cards[firstCard].matched = true;
+      cards[secondCard].matched = true;
+
+      teams[currentTeam].score++;
+      matchesFound++;
+
+      let punishment = randomFrom(hitPunishments);
+
+      document.getElementById("messageBox").innerHTML =
+        "<div class='message-good'>MATCH!<br>" +
+        teams[currentTeam].name + " fant par.<br><br>" +
+        punishment + "<span class='next-info'>Samme lag fortsetter.</span></div>";
+
+      firstCard = null;
+      secondCard = null;
+      lockBoard = false;
+      shouldClearPenalty = true;
+
+      updateScoreboard();
+      renderCards();
+
+      if (matchesFound === totalPairs) {
+        setTimeout(function() {
+          endGame();
+        }, 2500);
+      }
+    }
+
+    function handleMiss() {
+      cards[firstCard].flipped = false;
+      cards[secondCard].flipped = false;
+
+      let punishment = randomFrom(missPunishments);
+      let punishedTeam = currentTeam;
+      let nextTeam = (currentTeam + 1) % teamCount;
+
+      currentTeam = nextTeam;
+      updateTurnText();
+
+      document.getElementById("messageBox").innerHTML =
+        "<div class='message-bad'>BOM!<br>" +
+        teams[punishedTeam].name + ": " + punishment +
+        "<span class='next-info'>Neste: " + teams[currentTeam].name + "</span></div>";
+
+      firstCard = null;
+      secondCard = null;
+      lockBoard = false;
+      shouldClearPenalty = true;
+
+      renderCards();
+    }
+
+    function updateTurnText() {
+      document.getElementById("turnTeamText").innerHTML = teams[currentTeam].name;
+    }
+
+    function updateScoreboard() {
+      const scoreboard = document.getElementById("scoreboard");
+
+      scoreboard.className = "scoreboard";
+
+      if (teamCount === 2) {
+        scoreboard.classList.add("two");
+      } else {
+        scoreboard.classList.add("three");
+      }
+
+      scoreboard.innerHTML = "";
+
+      for (let i = 0; i < teams.length; i++) {
+        const scoreCard = document.createElement("div");
+        scoreCard.className = "score-card";
+
+        scoreCard.innerHTML =
+          "<div class='score-name'>" + teams[i].name + "</div>" +
+          "<div class='score-points'>" + teams[i].score + "</div>";
+
+        scoreboard.appendChild(scoreCard);
+      }
+    }
+
+    function endGame() {
+      let bestScore = -1;
+      let winners = [];
+
+      for (let i = 0; i < teams.length; i++) {
+        if (teams[i].score > bestScore) {
+          bestScore = teams[i].score;
+          winners = [teams[i]];
+        } else if (teams[i].score === bestScore) {
+          winners.push(teams[i]);
+        }
+      }
+
+      let winnerText = "";
+
+      if (winners.length === 1) {
+        winnerText = winners[0].name;
+      } else {
+        winnerText = "Uavgjort";
+      }
+
+      document.getElementById("winnerText").innerHTML = winnerText;
+      document.getElementById("winnerScoreText").innerHTML =
+        "Flest matcher: " + bestScore;
+
+      if (winners.length === 1) {
+        document.getElementById("loserPenaltyText").innerHTML =
+          winners[0].name + " kan gi straff til taperlaget:<br>" +
+          randomFrom(finalPunishments);
+      } else {
+        document.getElementById("loserPenaltyText").innerHTML =
+          "Uavgjort! Alle lag tar 1 slurk.";
+      }
+
+      document.getElementById("gameScreen").classList.add("hidden");
+      document.getElementById("winnerScreen").classList.remove("hidden");
+    }
+
+    function randomFrom(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function restartGame() {
+      document.getElementById("gameScreen").classList.add("hidden");
+      document.getElementById("winnerScreen").classList.add("hidden");
+      document.getElementById("startScreen").classList.remove("hidden");
+    }
+
+    updateTeamInputs();
+  </script>
+
+</body>
+</html>
