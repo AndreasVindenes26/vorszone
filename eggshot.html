@@ -98,7 +98,8 @@
       font-size: 14px;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       padding: 14px;
       border-radius: 14px;
@@ -109,6 +110,22 @@
       color: white;
       margin-bottom: 8px;
       user-select: text;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      background-image: linear-gradient(45deg, transparent 50%, #d8c7ff 50%),
+                        linear-gradient(135deg, #d8c7ff 50%, transparent 50%);
+      background-position: calc(100% - 22px) 20px, calc(100% - 16px) 20px;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    select option {
+      background: #1c1028;
+      color: white;
     }
 
     input::placeholder {
@@ -360,7 +377,7 @@
       <p class="subtitle">Knus egget. Er det glass inni, må du drikke.</p>
 
       <label>Antall spillere</label>
-      <input id="playersInput" type="number" value="5" min="2">
+      <select id="playersInput" onchange="refreshNameInputs()"></select>
 
       <button class="secondary-btn" onclick="toggleNameInputs()">Legg til navn</button>
 
@@ -370,10 +387,10 @@
       </div>
 
       <label>Antall egg</label>
-      <input id="eggsInput" type="number" value="9" min="3">
+      <select id="eggsInput"></select>
 
       <label>Antall egg med drikke</label>
-      <input id="drinkEggsInput" type="number" value="2" min="1">
+      <select id="drinkEggsInput"></select>
 
       <div class="toggle-row">
         <span>Legg til mystery eggs</span>
@@ -382,7 +399,7 @@
 
       <div id="mysterySettings" class="mystery-box hidden">
         <label>Antall mystery eggs</label>
-        <input id="mysteryEggsInput" type="number" value="2" min="0">
+        <select id="mysteryEggsInput"></select>
       </div>
 
       <button onclick="startGame()">Start spill</button>
@@ -424,6 +441,40 @@
 
     let audioContext;
     let soundOn = true;
+
+    function fillSelect(id, min, max, selectedValue) {
+      const select = document.getElementById(id);
+      select.innerHTML = "";
+
+      for (let i = min; i <= max; i++) {
+        const option = document.createElement("option");
+        option.value = i;
+        option.innerHTML = i;
+
+        if (i === selectedValue) {
+          option.selected = true;
+        }
+
+        select.appendChild(option);
+      }
+    }
+
+    function setupSelects() {
+      fillSelect("playersInput", 2, 15, 5);
+      fillSelect("eggsInput", 3, 30, 9);
+      fillSelect("drinkEggsInput", 1, 30, 2);
+      fillSelect("mysteryEggsInput", 0, 30, 2);
+    }
+
+    function refreshNameInputs() {
+      const namesBox = document.getElementById("namesBox");
+
+      if (!namesBox.classList.contains("hidden")) {
+        namesBox.classList.add("hidden");
+        document.getElementById("namesContainer").innerHTML = "";
+        toggleNameInputs();
+      }
+    }
 
     function toggleSound() {
       soundOn = !soundOn;
@@ -746,6 +797,8 @@
 
       canClick = true;
     }
+
+    setupSelects();
   </script>
 
 </body>
