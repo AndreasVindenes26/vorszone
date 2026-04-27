@@ -276,7 +276,7 @@
     <div class="card-wrapper">
       <div class="question-card" id="questionCard" onclick="nextQuestion()">
         <div class="question" id="questionText">Hvem chugger raskest?</div>
-        <div class="rule" id="ruleText">Chugg resten.</div>
+        <div class="rule" id="ruleText">Ta 3 slurker.</div>
       </div>
     </div>
 
@@ -298,7 +298,7 @@
 
   <script>
     const questions = [
-      { text: "Hvem chugger raskest?", rule: "Chugg resten." },
+      { text: "Hvem chugger raskest?", rule: "Ta 2 slurker." },
       { text: "Hvem er best på å shotte?", rule: "Ta en shot." },
       { text: "Hvem er best kledd?", rule: "Bytt et plagg med vedkommende." },
       { text: "Hvem blir fullest i kveld?", rule: "Ta 2 slurker." },
@@ -314,7 +314,6 @@
       { text: "Hvem havner oftest i kleine situasjoner?", rule: "Ta 3 slurker." },
       { text: "Hvem er mest klønete?", rule: "Ta 2 slurker." },
       { text: "Hvem mister stemmen først?", rule: "Ta 2 slurker." },
-      { text: "Hvem har mest konkurranseinstinkt?", rule: "Ta en chugge-konkurranse." },
       { text: "Hvem blir mest sannsynlig med på en dum idé?", rule: "Ta 2 slurker." },
       { text: "Hvem blir mest sannsynlig med på en shot?", rule: "Ta en shot sammen." },
       { text: "Hvem blir mest sannsynlig kveldens hype-man?", rule: "Velg 2 personer som må drikke." },
@@ -404,7 +403,7 @@
       startDeck();
 
       document.getElementById("questionText").innerHTML = "Hvem chugger raskest?";
-      document.getElementById("ruleText").innerHTML = "Chugg resten.";
+      document.getElementById("ruleText").innerHTML = "Ta 3 slurker.";
 
       const card = document.getElementById("questionCard");
 
