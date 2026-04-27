@@ -1,9 +1,17 @@
-<!DOCTYPE html>
+<!DOCTYPE html>   
 <html lang="no">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VorsZone</title>
+
+  <title>VorsZone – Vorsspill, drikkeleker og festspill</title>
+  <meta name="description" content="Spill morsomme vorsspill og drikkeleker direkte i nettleseren. Perfekt for fest og vors.">
+  <meta name="keywords" content="vorsspill, drikkelek, festleker, snusboksleken, ring of fire, vors, partyspill">
+
+  <meta property="og:title" content="VorsZone – Gjør vorset bedre">
+  <meta property="og:description" content="Spill morsomme vorsspill rett i nettleseren. Perfekt for fest.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vorszone.com">
 
   <style>
     * {
@@ -11,6 +19,11 @@
       padding: 0;
       box-sizing: border-box;
       font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -39,6 +52,17 @@
       color: #ffcf5a;
     }
 
+    .age-badge {
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,207,90,0.13);
+      border: 1px solid rgba(255,207,90,0.35);
+      color: #ffcf5a;
+      font-weight: bold;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+
     .hero {
       max-width: 900px;
       margin: 80px auto 60px;
@@ -54,6 +78,18 @@
       color: #d8c7ff;
       font-size: 14px;
       margin-bottom: 20px;
+    }
+
+    .safe-note {
+      display: inline-block;
+      margin-bottom: 22px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,207,90,0.1);
+      border: 1px solid rgba(255,207,90,0.25);
+      color: #ffcf5a;
+      font-size: 13px;
+      font-weight: bold;
     }
 
     h1 {
@@ -155,24 +191,83 @@
       margin-bottom: 22px;
     }
 
-    .badge {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,207,90,0.16);
-      color: #ffcf5a;
-      border: 1px solid rgba(255,207,90,0.25);
-    }
-
     footer {
       max-width: 1100px;
       margin: 70px auto 20px;
       color: #aaa;
       font-size: 13px;
       text-align: center;
+      line-height: 1.6;
+    }
+
+    .footer-disclaimer {
+      max-width: 850px;
+      margin: 0 auto 22px;
+      color: #888;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    /* POPUP */
+
+    .age-popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    .age-box {
+      width: 100%;
+      max-width: 460px;
+      background: linear-gradient(135deg, #171021, #0d0d0d);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 26px;
+      padding: 28px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 20px 70px rgba(0,0,0,0.7);
+    }
+
+    .age-box h2 {
+      font-size: 24px;
+      margin-bottom: 14px;
+      color: #ffcf5a;
+    }
+
+    .age-box p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: rgba(255,255,255,0.82);
+      margin-bottom: 12px;
+    }
+
+    .age-box .small-text {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .age-box button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 15px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ffcf5a, #ff6b6b);
+      color: #111;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .age-box button:hover {
+      transform: translateY(-2px);
     }
 
     @media (max-width: 850px) {
@@ -181,11 +276,17 @@
       }
 
       .games {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .hero {
         margin-top: 55px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .games {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -200,6 +301,11 @@
 
       .logo {
         font-size: 24px;
+      }
+
+      .age-badge {
+        font-size: 12px;
+        padding: 7px 11px;
       }
 
       .hero {
@@ -231,25 +337,61 @@
       .section-title {
         font-size: 26px;
       }
+
+      .age-box {
+        padding: 24px;
+      }
     }
   </style>
 </head>
 
 <body>
 
+  <div id="agePopup" class="age-popup">
+    <div class="age-box">
+      <h2>18+ | Ansvarsfraskrivelse</h2>
+
+      <p>
+        Dette spillet er kun ment for underholdningsformål. Ved bruk av tjenesten bekrefter du
+        at du er over 18 år og deltar frivillig og på eget ansvar.
+      </p>
+
+      <p>
+        VorsZone oppfordrer ikke til overdreven alkoholkonsum. Brukere står selv ansvarlig for
+        egne handlinger og valg under bruk av spillet.
+      </p>
+
+      <p>
+        Inntak av store mengder alkohol frarådes, og spillet bør gjennomføres på en ansvarlig
+        og forsvarlig måte.
+      </p>
+
+      <p class="small-text">
+        Ved å fortsette bekrefter du at du har lest og forstått dette.
+      </p>
+
+      <button onclick="acceptRules()">Jeg er 18+ og godtar</button>
+    </div>
+  </div>
+
   <header>
     <div class="logo">Vors<span>Zone</span></div>
+    <div class="age-badge">18+</div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="tag">🎉 Drikkeleker rett i nettleseren</div>
 
-      <h1>Gjør vorset bedre</h1>
+    <section class="hero">
+      <div class="tag">🎉 Vorsspill og drikkeleker</div>
+
+      <br>
+
+      <div class="safe-note">18+ | Spill ansvarlig</div>
+
+      <h1>De beste vorsspillene</h1>
 
       <p>
-        VorsZone samler enkle og morsomme partyspill du kan spille rett på mobilen.
-        Ingen app, ingen stress — bare velg et spill og send telefonen rundt.
+        Spill morsomme drikkeleker og vorsspill direkte i nettleseren. Perfekt for fest, vors og kvelder med venner. Nyt ansvarlig og ta vare på hverandre. 18+.
       </p>
 
       <div class="hero-buttons">
@@ -264,34 +406,45 @@
       <div class="games">
 
         <div class="game-card">
-          <div class="badge">Tilgjengelig</div>
           <div class="game-icon">🥚</div>
           <h3>EggShot</h3>
-          <p>
-            Trykk på egg etter tur. Noen er trygge, noen gir smell, og noen kan skjule mystery-effekter.
-          </p>
-          <a href="eggshot.html" class="btn btn-main">Spill EggShot</a>
+          <p>Trykk på egg etter tur. Noen er trygge, noen gir smell.</p>
+          <a href="eggshot.html" class="btn btn-main">Spill</a>
         </div>
 
         <div class="game-card">
-          <div class="badge">Tilgjengelig</div>
           <div class="game-icon">📦</div>
           <h3>Snusboksleken</h3>
-          <p>
-            Les spørsmålet høyt og kast snusboksen til den du mener passer best.
-            Den som får boksen må drikke og sende videre.
-          </p>
-          <a href="snus.html" class="btn btn-main">Spill Snusboksleken</a>
+          <p>Kast boksen til den du mener passer best.</p>
+          <a href="snus.html" class="btn btn-main">Spill</a>
         </div>
 
         <div class="game-card">
-          <div class="badge">Tilgjengelig</div>
           <div class="game-icon">🔥</div>
           <h3>Ring of Fire</h3>
-          <p>
-            Klassisk kortlek med regler for hvert kort. Spill med fysisk kortstokk eller bruk digital kortstokk.
-          </p>
-          <a href="ringoffire.html" class="btn btn-main">Spill Ring of Fire</a>
+          <p>Klassisk kortspill med regler.</p>
+          <a href="ringoffire.html" class="btn btn-main">Spill</a>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon">💣</div>
+          <h3>TicTic</h3>
+          <p>Send mobilen videre før bomba smeller.</p>
+          <a href="tictic.html" class="btn btn-main">Spill</a>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon">🧠</div>
+          <h3>ParPuls</h3>
+          <p>Finn par, behold turen og gi straff til andre lag.</p>
+          <a href="parpuls.html" class="btn btn-main">Spill</a>
+        </div>
+
+        <div class="game-card">
+          <div class="game-icon">💦</div>
+          <h3>Overflow</h3>
+          <p>Plasser gjenstander i vannet uten å få det til å renne over.</p>
+          <a href="overflow.html" class="btn btn-main">Spill</a>
         </div>
 
       </div>
@@ -305,32 +458,26 @@
         <div class="game-card info-card">
           <div class="game-icon">🎮</div>
           <h3>Velg spill</h3>
-          <p>Finn en lek som passer stemningen.</p>
+          <p>Finn en lek som passer vorset.</p>
         </div>
 
         <div class="game-card info-card">
           <div class="game-icon">👥</div>
           <h3>Sett opp</h3>
-          <p>Legg inn spillere og start på sekunder.</p>
+          <p>Velg lag, spillere eller modus.</p>
         </div>
 
         <div class="game-card info-card">
           <div class="game-icon">🍻</div>
           <h3>Spill</h3>
-          <p>Send mobilen rundt og la kaoset begynne.</p>
+          <p>Send mobilen rundt og følg reglene.</p>
         </div>
 
       </div>
 
       <p style="margin-top: 25px; text-align:center; color:#888; font-size:13px;">
         Drikk ansvarlig. 18+
-      </p>
-
-      <p style="margin-top: 6px; text-align:center; color:#777; font-size:12px;">
-        VorsZone oppfordrer ikke til overdrevent alkoholforbruk.
-      </p>
-
-      <p style="margin-top: 10px; text-align:center; color:#666; font-size:12px;">
+        <br>
         Spillene er inspirert av klassiske selskapsleker.
       </p>
 
@@ -338,12 +485,34 @@
   </main>
 
   <footer>
-    © 2026 VorsZone – Partyspill for vors og kvelder med venner.
+    <div class="footer-disclaimer">
+      <strong>18+ | Dette spillet er kun ment for underholdningsformål.</strong>
+      Ved bruk av tjenesten bekrefter du at du er over 18 år og deltar frivillig og på eget ansvar.
+      <br><br>
+      VorsZone oppfordrer ikke til overdreven alkoholkonsum. Brukere står selv ansvarlig for egne
+      handlinger og valg under bruk av spillet. Inntak av store mengder alkohol frarådes, og spillet
+      bør gjennomføres på en ansvarlig og forsvarlig måte.
+    </div>
+
+    © 2026 VorsZone – Partyspill for vors.
     <br><br>
     <a href="https://vindcorp.no" style="color:#666; text-decoration:none;">
       Laget av Vindcorp
     </a>
   </footer>
+
+  <script>
+    const agePopup = document.getElementById("agePopup");
+
+    if (localStorage.getItem("vorszoneAccepted") === "true") {
+      agePopup.style.display = "none";
+    }
+
+    function acceptRules() {
+      localStorage.setItem("vorszoneAccepted", "true");
+      agePopup.style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
