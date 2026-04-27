@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>VorsZone – Vorsspill, drikkeleker og festspill</title>
-  <meta name="description" content="Spill morsomme vorsspill og drikkeleker direkte i nettleseren. Perfekt for fest og vors.">
+  <meta name="description" content="Spill morsomme vorsspill og drikkeleker direkte i nettleseren. Perfekt for fest og vors. 18+. Spill ansvarlig.">
   <meta name="keywords" content="vorsspill, drikkelek, festleker, snusboksleken, ring of fire, vors, partyspill">
 
   <meta property="og:title" content="VorsZone – Gjør vorset bedre">
-  <meta property="og:description" content="Spill morsomme vorsspill rett i nettleseren. Perfekt for fest.">
+  <meta property="og:description" content="Spill morsomme vorsspill rett i nettleseren. 18+. Spill ansvarlig.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vorszone.com">
 
@@ -120,6 +120,8 @@
       font-weight: bold;
       text-decoration: none;
       transition: 0.2s;
+      border: none;
+      cursor: pointer;
     }
 
     .btn-main {
@@ -191,6 +193,35 @@
       margin-bottom: 22px;
     }
 
+    .legal-section {
+      max-width: 950px;
+      margin: 70px auto 0;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 26px;
+      padding: 28px;
+      color: #cfcfcf;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .legal-section h2 {
+      color: white;
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+
+    .legal-section h3 {
+      color: #ffcf5a;
+      font-size: 17px;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    .legal-section p {
+      margin-bottom: 10px;
+    }
+
     footer {
       max-width: 1100px;
       margin: 70px auto 20px;
@@ -201,11 +232,35 @@
     }
 
     .footer-disclaimer {
-      max-width: 850px;
+      max-width: 900px;
       margin: 0 auto 22px;
       color: #888;
       font-size: 12px;
       line-height: 1.7;
+    }
+
+    .footer-link {
+      color: #777;
+      text-decoration: none;
+      margin: 0 6px;
+    }
+
+    .footer-link:hover {
+      color: #ffcf5a;
+    }
+
+    .reset-btn {
+      margin-top: 12px;
+      background: none;
+      color: #777;
+      border: none;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .reset-btn:hover {
+      color: #ffcf5a;
     }
 
     /* POPUP */
@@ -224,7 +279,7 @@
 
     .age-box {
       width: 100%;
-      max-width: 460px;
+      max-width: 500px;
       background: linear-gradient(135deg, #171021, #0d0d0d);
       border: 1px solid rgba(255,255,255,0.18);
       border-radius: 26px;
@@ -341,6 +396,10 @@
       .age-box {
         padding: 24px;
       }
+
+      .legal-section {
+        padding: 22px;
+      }
     }
   </style>
 </head>
@@ -349,25 +408,29 @@
 
   <div id="agePopup" class="age-popup">
     <div class="age-box">
-      <h2>18+ | Ansvarsfraskrivelse</h2>
+      <h2>18+ | Viktig informasjon</h2>
 
       <p>
-        Dette spillet er kun ment for underholdningsformål. Ved bruk av tjenesten bekrefter du
-        at du er over 18 år og deltar frivillig og på eget ansvar.
+        VorsZone er kun ment for underholdning og for personer som er 18 år eller eldre.
       </p>
 
       <p>
-        VorsZone oppfordrer ikke til overdreven alkoholkonsum. Brukere står selv ansvarlig for
-        egne handlinger og valg under bruk av spillet.
+        Ved å fortsette bekrefter du at du er minst 18 år, at du bruker tjenesten frivillig,
+        og at du selv er ansvarlig for egne valg og handlinger.
       </p>
 
       <p>
-        Inntak av store mengder alkohol frarådes, og spillet bør gjennomføres på en ansvarlig
-        og forsvarlig måte.
+        VorsZone oppfordrer ikke til overdreven alkoholkonsum. Alkohol kan være helseskadelig,
+        og inntak bør alltid skje ansvarlig og i tråd med gjeldende lover og regler.
+      </p>
+
+      <p>
+        Nettsiden lagrer kun en enkel 18+-bekreftelse lokalt i nettleseren din. Dette deles ikke
+        med tredjeparter.
       </p>
 
       <p class="small-text">
-        Ved å fortsette bekrefter du at du har lest og forstått dette.
+        Ved å trykke på knappen bekrefter du at du har lest og forstått informasjonen.
       </p>
 
       <button onclick="acceptRules()">Jeg er 18+ og godtar</button>
@@ -391,7 +454,8 @@
       <h1>De beste vorsspillene</h1>
 
       <p>
-        Spill morsomme drikkeleker og vorsspill direkte i nettleseren. Perfekt for fest, vors og kvelder med venner. Nyt ansvarlig og ta vare på hverandre. 18+.
+        Spill morsomme drikkeleker og vorsspill direkte i nettleseren. Perfekt for fest,
+        vors og kvelder med venner. Nyt ansvarlig, kjenn egne grenser og ta vare på hverandre.
       </p>
 
       <div class="hero-buttons">
@@ -482,23 +546,68 @@
       </p>
 
     </section>
+
+    <section class="legal-section" id="personvern">
+      <h2>Ansvar og personvern</h2>
+
+      <h3>18+ og ansvarlig bruk</h3>
+      <p>
+        VorsZone er kun ment for personer som er 18 år eller eldre. Spillene er laget for
+        underholdning og skal ikke forstås som en oppfordring til å drikke alkohol.
+      </p>
+
+      <p>
+        Brukere er selv ansvarlige for egne valg, handlinger og eventuelt alkoholinntak.
+        Alkohol bør alltid inntas med måte, og ingen bør presses til å drikke.
+      </p>
+
+      <h3>Ingen personlig informasjon</h3>
+      <p>
+        VorsZone har ikke innlogging, brukerkontoer, kontaktskjema eller betalingsløsning.
+        Nettsiden samler derfor ikke inn navn, e-postadresse, telefonnummer eller annen
+        personlig informasjon direkte fra brukeren.
+      </p>
+
+      <h3>Lokal lagring i nettleseren</h3>
+      <p>
+        For å huske at du har bekreftet 18+-meldingen, lagres verdien
+        <strong>vorszoneAccepted = true</strong> lokalt i nettleseren din ved hjelp av
+        localStorage. Dette lagres kun på din egen enhet og sendes ikke til noe tredjeparter.
+      </p>
+
+      <p>
+        Du kan fjerne denne lagringen ved å slette nettleserdata, eller ved å trykke på knappen under.
+      </p>
+
+      <button class="reset-btn" onclick="resetLocalStorage()">Nullstill 18+-bekreftelse</button>
+
+      <h3>Ingen tracking</h3>
+      <p>
+        Denne versjonen av nettsiden bruker ikke analyseverktøy, reklamecookies, sporingspiksler
+        eller tredjeparts tracking.
+      </p>
+      <p>
+        
+      </p>
+    </section>
+
   </main>
 
   <footer>
     <div class="footer-disclaimer">
-      <strong>18+ | Dette spillet er kun ment for underholdningsformål.</strong>
-      Ved bruk av tjenesten bekrefter du at du er over 18 år og deltar frivillig og på eget ansvar.
+      <strong>18+ | Kun for underholdning.</strong>
+      VorsZone oppfordrer ikke til overdreven alkoholkonsum. Brukere deltar frivillig og på eget ansvar.
+      Alkohol bør inntas ansvarlig og i tråd med gjeldende lover og regler.
       <br><br>
-      VorsZone oppfordrer ikke til overdreven alkoholkonsum. Brukere står selv ansvarlig for egne
-      handlinger og valg under bruk av spillet. Inntak av store mengder alkohol frarådes, og spillet
-      bør gjennomføres på en ansvarlig og forsvarlig måte.
+    
     </div>
 
     © 2026 VorsZone – Partyspill for vors.
     <br><br>
-    <a href="https://vindcorp.no" style="color:#666; text-decoration:none;">
-      Laget av Vindcorp
-    </a>
+
+    <a href="#personvern" class="footer-link">Ansvar og personvern</a>
+    |
+    <a href="https://vindcorp.no" class="footer-link">Laget av Vindcorp</a>
   </footer>
 
   <script>
@@ -511,6 +620,11 @@
     function acceptRules() {
       localStorage.setItem("vorszoneAccepted", "true");
       agePopup.style.display = "none";
+    }
+
+    function resetLocalStorage() {
+      localStorage.removeItem("vorszoneAccepted");
+      alert("18+-bekreftelsen er nullstilt. Popupen vises igjen neste gang siden åpnes.");
     }
   </script>
 
