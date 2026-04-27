@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="no">
 <head>
   <meta charset="UTF-8">
@@ -698,10 +698,10 @@
 
         if (result === "drink") {
           eggElement.classList.add("drink-egg");
-          eggElement.innerHTML = "🍺";
+          eggElement.innerHTML = "🥛";
           playDrinkSound();
 
-          eggs[index].shown = "🍺";
+          eggs[index].shown = "🥛";
           eggs[index].className = "drink-egg";
 
           document.getElementById("resultText").innerHTML =
@@ -732,7 +732,7 @@
           const mysteryEvents = [
             "😈 Trykk igjen!",
             "🎯 Velg en som må drikke!",
-            "🍻 Alle tar 1 slurk!"
+            "Alle tar 1 slurk!"
           ];
 
           const randomEvent = mysteryEvents[Math.floor(Math.random() * mysteryEvents.length)];
