@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="no">
 <head>
   <meta charset="UTF-8">
@@ -32,11 +32,29 @@
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.16);
       border-radius: 30px;
-      padding: 24px;
+      padding: 60px 24px 24px;
       box-shadow: 0 25px 80px rgba(0,0,0,0.55);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 24px;
+      text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .top {
@@ -126,7 +144,7 @@
     }
 
     .card {
-      min-height: 330px;
+      height: 385px;
       border-radius: 26px;
       background: radial-gradient(circle at top, rgba(181,108,255,0.35), rgba(255,255,255,0.08));
       border: 1px solid rgba(255,255,255,0.18);
@@ -137,6 +155,11 @@
       padding: 25px;
       box-shadow: inset 0 0 40px rgba(255,255,255,0.03);
       cursor: pointer;
+      overflow: hidden;
+    }
+
+    .card-content {
+      width: 100%;
     }
 
     .small-text {
@@ -154,6 +177,7 @@
       margin: 12px 0;
       color: white;
       text-shadow: 0 0 25px rgba(181,108,255,0.65);
+      word-break: break-word;
     }
 
     .role-title {
@@ -168,6 +192,8 @@
       margin: 14px 0;
       color: white;
       text-shadow: 0 0 25px rgba(181,108,255,0.7);
+      word-break: break-word;
+      line-height: 1.15;
     }
 
     .liar {
@@ -237,12 +263,28 @@
       margin-top: 18px;
       line-height: 1.5;
     }
+
+    @media (max-width: 430px) {
+      .card {
+        height: 370px;
+      }
+
+      .secret-word {
+        font-size: 36px;
+      }
+
+      .big-name {
+        font-size: 34px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
   <div class="app">
+
+    <a href="index.html" class="back-btn">←</a>
 
     <div class="top">
       <div class="logo">Hvem <span>Lyver?</span></div>
@@ -299,7 +341,6 @@
     </div>
 
     <div class="screen" id="cardScreen">
-
       <div class="card" id="roleCard" onclick="cardClicked()"></div>
 
       <p class="info" id="cardInfo">
@@ -318,7 +359,7 @@
       <div class="timer" id="timer">02:00</div>
 
       <p class="info">
-        Timeren har startet. Still bare ja/nei-spørsmål. Når tiden er ute, stemmer dere på hvem som lyver.
+        Timeren har startet. Gå på tur og si ett ord som passer til kategorien, eller still ja/nei-spørsmål.
       </p>
 
       <button class="secondary" onclick="resetGame()">Ny runde</button>
@@ -327,7 +368,7 @@
     <div class="screen" id="endScreen">
 
       <div class="card">
-        <div>
+        <div class="card-content">
           <div class="small-text">Runden er ferdig</div>
           <div class="secret-word">Tiden er ute!</div>
           <p>Nå skal alle stemme på hvem de tror løy.</p>
@@ -341,7 +382,7 @@
     <div class="screen" id="resultScreen">
 
       <div class="card">
-        <div>
+        <div class="card-content">
           <div class="small-text">Fasit</div>
           <p>Ordet var:</p>
           <div class="secret-word" id="resultWord"></div>
@@ -361,55 +402,55 @@
 
   <script>
     const personer = [
-    "Herman Flesvig",
-  "Jon Almaas",
-  "Atle Antonsen",
-  "Bård Tufte Johansen",
-  "Harald Eia",
-  "Else Kåss Furuseth",
-  "Espen Eckbo",
-  "Trond Fausa",
-  "Steinar Sagen",
-  "Leo (Hvite gutter)",
-  "Jens (Hvite gutter)",
-  "Mathias (Hvite gutter)",
-  "Herman (Hvite gutter)",
-  "Calle Hellevang-Larsen",
-  "Ylvis brødrene",
-  "Erik Follestad",
-  "Stian Blipp",
-  "Leo Ajkic",
-  "Justin Bieber",
-  "Taylor Swift",
-  "IShowSpeed",
-  "Kai Cenat",
-  "Kim Kardashian",
-  "Beyoncé",
-  "Leonardo DiCaprio",
-  "Brad Pitt",
-  "Johnny Depp"
+      "Herman Flesvig",
+      "Jon Almaas",
+      "Atle Antonsen",
+      "Bård Tufte Johansen",
+      "Harald Eia",
+      "Else Kåss Furuseth",
+      "Espen Eckbo",
+      "Trond Fausa",
+      "Steinar Sagen",
+      "Leo (Hvite gutter)",
+      "Jens (Hvite gutter)",
+      "Mathias (Hvite gutter)",
+      "Herman (Hvite gutter)",
+      "Calle Hellevang-Larsen",
+      "Ylvis brødrene",
+      "Erik Follestad",
+      "Stian Blipp",
+      "Leo Ajkic",
+      "Justin Bieber",
+      "Taylor Swift",
+      "IShowSpeed",
+      "Kai Cenat",
+      "Kim Kardashian",
+      "Beyoncé",
+      "Leonardo DiCaprio",
+      "Brad Pitt",
+      "Johnny Depp"
     ];
 
     const steder = [
-       "Ibiza",
-  "Bali",
-  "Syden",
-  "Dubai",
-  "Las Vegas",
-  "På toalettet med kø",
-  "I kø for kebab",
-  "Taxi",
-  "Flyet",
-  "Tjuvholmen",
-  "Aker Brygge",
-  "Festivaltoalettet",
-  "På nach hos en du ikke kjenner",
-  "Nachspiel",
-  "Vorspiel",
-  "I dusjen med klær",
-  "På backpacking",
-  "Afterski",
-  "Beach club"
+      "Ibiza",
+      "Bali",
+      "Syden",
+      "Dubai",
+      "Las Vegas",
+      "På toalettet med kø",
+      "I kø for kebab",
+      "Taxi",
+      "Flyet",
+      "Tjuvholmen",
+      "Aker Brygge",
+      "Festivaltoalettet",
+      "På nach hos en du ikke kjenner",
+      "Nachspiel",
+      "Vorspiel",
+      "I dusjen med klær",
+      "På backpacking",
+      "Afterski",
+      "Beach club"
     ];
 
     let players = [];
@@ -507,7 +548,7 @@
       revealed = false;
 
       document.getElementById("roleCard").innerHTML = `
-        <div>
+        <div class="card-content">
           <div class="small-text">Gi telefonen til</div>
           <div class="big-name">${players[currentIndex]}</div>
           <p>${players[currentIndex]} skal trykke på kortet for å se rollen sin.</p>
@@ -538,7 +579,7 @@
 
       if (roles[currentIndex] === "LØGNER") {
         document.getElementById("roleCard").innerHTML = `
-          <div>
+          <div class="card-content">
             <div class="small-text">Din rolle</div>
             <div class="role-title">Du er</div>
             <div class="secret-word liar">LØGNER</div>
@@ -552,7 +593,7 @@
         `;
       } else {
         document.getElementById("roleCard").innerHTML = `
-          <div>
+          <div class="card-content">
             <div class="small-text">Din rolle</div>
             <div class="role-title">Ordet ditt er</div>
             <div class="secret-word">${roles[currentIndex]}</div>
