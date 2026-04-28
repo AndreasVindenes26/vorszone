@@ -1,4 +1,4 @@
-<!DOCTYPE html>   
+<!DOCTYPE html>    
 <html lang="no">
 <head>
   <meta charset="UTF-8">
@@ -12,6 +12,11 @@
   <meta property="og:description" content="Spill morsomme vorsspill rett i nettleseren. 18+. Spill ansvarlig.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vorszone.com">
+  <meta property="og:image" content="https://vorszone.com/Bilder/icon-1024.png">
+
+  <link rel="icon" type="image/png" href="Bilder/icon-1024.png">
+  <link rel="apple-touch-icon" href="Bilder/icon-1024.png">
+  <link rel="shortcut icon" href="Bilder/icon-1024.png">
 
   <style>
     * {
@@ -46,6 +51,16 @@
       font-size: 26px;
       font-weight: bold;
       letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      object-fit: cover;
     }
 
     .logo span {
@@ -356,6 +371,12 @@
         font-size: 24px;
       }
 
+      .logo img {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+      }
+
       .age-badge {
         font-size: 12px;
         padding: 7px 11px;
@@ -436,7 +457,10 @@
   </div>
 
   <header>
-    <div class="logo">Vors<span>Zone</span></div>
+    <div class="logo">
+      <img src="Bilder/icon-1024.png" alt="VorsZone logo">
+      Vors<span>Zone</span>
+    </div>
     <div class="age-badge">18+</div>
   </header>
 
