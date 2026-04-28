@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hvem Lyver?</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #090909, #1c1028, #120817);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      user-select: none;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 460px;
+      min-height: 650px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 30px;
+      padding: 24px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.55);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .top {
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: #b56cff;
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.72);
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 15px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    select option {
+      color: black;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .names {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, #8e44ff, #ff4fd8);
+      cursor: pointer;
+      box-shadow: 0 12px 35px rgba(180, 80, 255, 0.35);
+    }
+
+    button.secondary {
+      background: rgba(255,255,255,0.12);
+      box-shadow: none;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .card {
+      min-height: 330px;
+      border-radius: 26px;
+      background: radial-gradient(circle at top, rgba(181,108,255,0.35), rgba(255,255,255,0.08));
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 25px;
+      box-shadow: inset 0 0 40px rgba(255,255,255,0.03);
+      cursor: pointer;
+    }
+
+    .small-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+
+    .big-name {
+      font-size: 38px;
+      font-weight: 900;
+      margin: 12px 0;
+      color: white;
+      text-shadow: 0 0 25px rgba(181,108,255,0.65);
+    }
+
+    .role-title {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .secret-word {
+      font-size: 42px;
+      font-weight: 900;
+      margin: 14px 0;
+      color: white;
+      text-shadow: 0 0 25px rgba(181,108,255,0.7);
+    }
+
+    .liar {
+      color: #ff5c8a;
+    }
+
+    .next-box {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .next-box p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 5px;
+    }
+
+    .next-box strong {
+      font-size: 22px;
+      color: #b56cff;
+    }
+
+    .card p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+
+    .timer {
+      font-size: 78px;
+      font-weight: 900;
+      text-align: center;
+      margin: 30px 0 10px;
+      letter-spacing: -3px;
+    }
+
+    .starter {
+      text-align: center;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 18px;
+      border-radius: 20px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .starter strong {
+      color: #b56cff;
+      font-size: 24px;
+    }
+
+    .info {
+      font-size: 13px;
+      color: rgba(255,255,255,0.58);
+      line-height: 1.5;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 18px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <div class="top">
+      <div class="logo">Hvem <span>Lyver?</span></div>
+      <p class="subtitle">
+        Alle får samme ord, bortsett fra én eller flere som lyver. Gå på tur og si ett ord som passer til kategorien, eller still ja/nei-spørsmål – finn fakeren.
+      </p>
+    </div>
+
+    <div class="screen active" id="setupScreen">
+
+      <div class="row">
+        <div>
+          <label>Antall spillere</label>
+          <select id="playerCount" onchange="createNameInputs()">
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Antall løgnere</label>
+          <select id="liarCount">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label>Kategori</label>
+        <select id="category">
+          <option value="personer">Personer</option>
+          <option value="steder">Steder</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Spillernavn</label>
+        <div class="names" id="nameInputs"></div>
+      </div>
+
+      <button onclick="startGame()">Start korttrekning</button>
+
+      <p class="info">
+        Telefonen sendes rundt. Trykk på kortet for å se rollen, og trykk igjen for å sende videre.
+      </p>
+    </div>
+
+    <div class="screen" id="cardScreen">
+
+      <div class="card" id="roleCard" onclick="cardClicked()"></div>
+
+      <p class="info" id="cardInfo">
+        Ikke la andre se skjermen når du trykker.
+      </p>
+    </div>
+
+    <div class="screen" id="timerScreen">
+
+      <div class="starter">
+        <p>Alle har fått rollen sin.</p>
+        <p>Runden starter med:</p>
+        <strong id="starterName"></strong>
+      </div>
+
+      <div class="timer" id="timer">02:00</div>
+
+      <p class="info">
+        Timeren har startet. Still bare ja/nei-spørsmål. Når tiden er ute, stemmer dere på hvem som lyver.
+      </p>
+
+      <button class="secondary" onclick="resetGame()">Ny runde</button>
+    </div>
+
+    <div class="screen" id="endScreen">
+
+      <div class="card">
+        <div>
+          <div class="small-text">Runden er ferdig</div>
+          <div class="secret-word">Tiden er ute!</div>
+          <p>Nå skal alle stemme på hvem de tror løy.</p>
+        </div>
+      </div>
+
+      <button onclick="showResults()">Vis fasit</button>
+      <button class="secondary" onclick="resetGame()">Spill igjen</button>
+    </div>
+
+    <div class="screen" id="resultScreen">
+
+      <div class="card">
+        <div>
+          <div class="small-text">Fasit</div>
+          <p>Ordet var:</p>
+          <div class="secret-word" id="resultWord"></div>
+          <p>Løgner(e):</p>
+          <div class="secret-word liar" id="resultLiars"></div>
+        </div>
+      </div>
+
+      <button onclick="resetGame()">Ny runde</button>
+    </div>
+
+    <div class="footer">
+      Spill ansvarlig. 18+ hvis dere bruker spillet med alkohol.
+    </div>
+
+  </div>
+
+  <script>
+    const personer = [
+    "Herman Flesvig",
+  "Jon Almaas",
+  "Atle Antonsen",
+  "Bård Tufte Johansen",
+  "Harald Eia",
+  "Else Kåss Furuseth",
+  "Espen Eckbo",
+  "Trond Fausa",
+  "Steinar Sagen",
+  "Leo (Hvite gutter)",
+  "Jens (Hvite gutter)",
+  "Mathias (Hvite gutter)",
+  "Herman (Hvite gutter)",
+  "Calle Hellevang-Larsen",
+  "Ylvis brødrene",
+  "Erik Follestad",
+  "Stian Blipp",
+  "Leo Ajkic",
+  "Justin Bieber",
+  "Taylor Swift",
+  "IShowSpeed",
+  "Kai Cenat",
+  "Kim Kardashian",
+  "Beyoncé",
+  "Leonardo DiCaprio",
+  "Brad Pitt",
+  "Johnny Depp"
+    ];
+
+    const steder = [
+       "Ibiza",
+  "Bali",
+  "Syden",
+  "Dubai",
+  "Las Vegas",
+  "På toalettet med kø",
+  "I kø for kebab",
+  "Taxi",
+  "Flyet",
+  "Tjuvholmen",
+  "Aker Brygge",
+  "Festivaltoalettet",
+  "På nach hos en du ikke kjenner",
+  "Nachspiel",
+  "Vorspiel",
+  "I dusjen med klær",
+  "På backpacking",
+  "Afterski",
+  "Beach club"
+    ];
+
+    let players = [];
+    let roles = [];
+    let currentIndex = 0;
+    let chosenWord = "";
+    let liars = [];
+    let revealed = false;
+    let timerInterval;
+    let timeLeft = 120;
+
+    function createNameInputs() {
+      const count = Number(document.getElementById("playerCount").value);
+      const box = document.getElementById("nameInputs");
+
+      box.innerHTML = "";
+
+      for (let i = 1; i <= count; i++) {
+        const input = document.createElement("input");
+        input.placeholder = "Spiller " + i;
+        input.id = "player" + i;
+        box.appendChild(input);
+      }
+    }
+
+    function showScreen(screenId) {
+      document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+      });
+
+      document.getElementById(screenId).classList.add("active");
+    }
+
+    function startGame() {
+      const count = Number(document.getElementById("playerCount").value);
+      const liarCount = Number(document.getElementById("liarCount").value);
+      const category = document.getElementById("category").value;
+
+      if (liarCount >= count) {
+        alert("Det må være færre løgnere enn spillere.");
+        return;
+      }
+
+      players = [];
+
+      for (let i = 1; i <= count; i++) {
+        const name = document.getElementById("player" + i).value.trim();
+
+        if (name === "") {
+          players.push("Spiller " + i);
+        } else {
+          players.push(name);
+        }
+      }
+
+      const wordList = category === "personer" ? personer : steder;
+      chosenWord = wordList[Math.floor(Math.random() * wordList.length)];
+
+      roles = [];
+      liars = [];
+
+      let liarIndexes = [];
+
+      while (liarIndexes.length < liarCount) {
+        const randomIndex = Math.floor(Math.random() * players.length);
+
+        if (!liarIndexes.includes(randomIndex)) {
+          liarIndexes.push(randomIndex);
+        }
+      }
+
+      for (let i = 0; i < players.length; i++) {
+        if (liarIndexes.includes(i)) {
+          roles.push("LØGNER");
+          liars.push(players[i]);
+        } else {
+          roles.push(chosenWord);
+        }
+      }
+
+      currentIndex = 0;
+      showPlayerCard();
+      showScreen("cardScreen");
+    }
+
+    function getNextPlayerName() {
+      if (currentIndex + 1 < players.length) {
+        return players[currentIndex + 1];
+      } else {
+        return "Ingen flere";
+      }
+    }
+
+    function showPlayerCard() {
+      revealed = false;
+
+      document.getElementById("roleCard").innerHTML = `
+        <div>
+          <div class="small-text">Gi telefonen til</div>
+          <div class="big-name">${players[currentIndex]}</div>
+          <p>${players[currentIndex]} skal trykke på kortet for å se rollen sin.</p>
+
+          <div class="next-box">
+            <p>Trykk på kortet når du er klar.</p>
+            <strong>Se rolle</strong>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("cardInfo").innerText =
+        "Bare personen som står på skjermen skal se kortet.";
+    }
+
+    function cardClicked() {
+      if (revealed === false) {
+        revealCard();
+      } else {
+        nextPlayer();
+      }
+    }
+
+    function revealCard() {
+      revealed = true;
+
+      const nextPlayer = getNextPlayerName();
+
+      if (roles[currentIndex] === "LØGNER") {
+        document.getElementById("roleCard").innerHTML = `
+          <div>
+            <div class="small-text">Din rolle</div>
+            <div class="role-title">Du er</div>
+            <div class="secret-word liar">LØGNER</div>
+            <p>Du har ikke fått ordet. Lat som du vet hva de andre snakker om.</p>
+
+            <div class="next-box">
+              <p>Trykk på kortet igjen for å sende videre til:</p>
+              <strong>${nextPlayer}</strong>
+            </div>
+          </div>
+        `;
+      } else {
+        document.getElementById("roleCard").innerHTML = `
+          <div>
+            <div class="small-text">Din rolle</div>
+            <div class="role-title">Ordet ditt er</div>
+            <div class="secret-word">${roles[currentIndex]}</div>
+            <p>Ikke si ordet høyt. Prøv å avsløre hvem som lyver.</p>
+
+            <div class="next-box">
+              <p>Trykk på kortet igjen for å sende videre til:</p>
+              <strong>${nextPlayer}</strong>
+            </div>
+          </div>
+        `;
+      }
+
+      if (currentIndex + 1 < players.length) {
+        document.getElementById("cardInfo").innerText =
+          "Trykk hvor som helst på kortet for å sende telefonen videre.";
+      } else {
+        document.getElementById("cardInfo").innerText =
+          "Trykk på kortet igjen. Da starter runden automatisk.";
+      }
+    }
+
+    function nextPlayer() {
+      currentIndex++;
+
+      if (currentIndex >= players.length) {
+        startRoundAutomatically();
+      } else {
+        showPlayerCard();
+      }
+    }
+
+    function startRoundAutomatically() {
+      const randomStarter = players[Math.floor(Math.random() * players.length)];
+      document.getElementById("starterName").innerText = randomStarter;
+
+      showScreen("timerScreen");
+
+      clearInterval(timerInterval);
+      timeLeft = 120;
+      updateTimer();
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          showScreen("endScreen");
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+
+      const formatted =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+
+      document.getElementById("timer").innerText = formatted;
+    }
+
+    function showResults() {
+      document.getElementById("resultWord").innerText = chosenWord;
+      document.getElementById("resultLiars").innerText = liars.join(", ");
+      showScreen("resultScreen");
+    }
+
+    function resetGame() {
+      clearInterval(timerInterval);
+      timeLeft = 120;
+      showScreen("setupScreen");
+    }
+
+    createNameInputs();
+  </script>
+
+</body>
+</html>
