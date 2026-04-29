@@ -265,7 +265,9 @@
     }
 
     .reset-btn {
+      display: inline-block;
       margin-top: 12px;
+      margin-right: 10px;
       background: none;
       color: #777;
       border: none;
@@ -608,22 +610,31 @@
       <p>
         For å huske at du har bekreftet 18+-meldingen, lagres verdien
         <strong>vorszoneAccepted = true</strong> lokalt i nettleseren din ved hjelp av
-        localStorage. Dette lagres kun på din egen enhet og sendes ikke til noe tredjeparter.
+        localStorage. Dette lagres kun på din egen enhet.
       </p>
 
       <p>
-        Du kan fjerne denne lagringen ved å slette nettleserdata, eller ved å trykke på knappen under.
+        Nettsiden lagrer også cookie-valget ditt lokalt i nettleseren, slik at du ikke må svare
+        på nytt hver gang du besøker en ny side.
       </p>
 
       <button class="reset-btn" onclick="resetLocalStorage()">Nullstill 18+-bekreftelse</button>
+      <button class="reset-btn" onclick="resetCookies()">Nullstill cookie-valg</button>
 
-      <h3>Ingen tracking</h3>
+      <h3>Analyse og cookies</h3>
       <p>
-        Denne versjonen av nettsiden bruker ikke analyseverktøy, reklamecookies, sporingspiksler
-        eller tredjeparts tracking.
+        VorsZone bruker Google Analytics for å forstå hvordan nettsiden brukes,
+        for eksempel hvor mange som besøker siden og hvilke spill som er mest populære.
       </p>
+
       <p>
-        
+        Analyseverktøyet aktiveres kun dersom du gir samtykke via cookie-banneret.
+        Hvis du avslår, samles det ikke inn analyse av din bruk.
+      </p>
+
+      <p>
+        Du kan når som helst trekke tilbake samtykket ved å trykke på
+        <strong>Nullstill cookie-valg</strong>. Da vil cookie-banneret vises på nytt neste gang siden lastes.
       </p>
     </section>
 
@@ -635,7 +646,6 @@
       VorsZone oppfordrer ikke til overdreven alkoholkonsum. Brukere deltar frivillig og på eget ansvar.
       Alkohol bør inntas ansvarlig og i tråd med gjeldende lover og regler.
       <br><br>
-    
     </div>
 
     © 2026 VorsZone – Partyspill for vors.
@@ -662,7 +672,13 @@
       localStorage.removeItem("vorszoneAccepted");
       alert("18+-bekreftelsen er nullstilt. Popupen vises igjen neste gang siden åpnes.");
     }
+
+    function resetCookies() {
+      localStorage.removeItem("cookieValg");
+      alert("Cookie-valget er nullstilt. Du vil bli spurt på nytt neste gang siden lastes.");
+    }
   </script>
-<script src="cookies.js"></script>
+
+  <script src="cookies.js"></script>
 </body>
 </html>
