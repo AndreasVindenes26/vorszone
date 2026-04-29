@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>TegnX – VorsZone</title>
+  <link rel="icon" type="image/png" href="Bilder/icon-1024.png">
+  <link rel="apple-touch-icon" href="Bilder/icon-1024.png">
+  <link rel="shortcut icon" href="Bilder/icon-1024.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(142,68,255,0.35), transparent 38%),
+        linear-gradient(135deg, #090909, #1c1028, #120817);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      user-select: none;
+      overflow-x: hidden;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 460px;
+      min-height: 680px;
+      background: rgba(255,255,255,0.085);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 34px;
+      padding: 20px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.55);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .app::before {
+      content: "";
+      position: absolute;
+      inset: -80px;
+      background: radial-gradient(circle, rgba(255,79,216,0.16), transparent 55%);
+      pointer-events: none;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 20;
+    }
+
+    section {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .top {
+      text-align: center;
+      margin-bottom: 16px;
+      padding-top: 26px;
+    }
+
+    .logo {
+      font-size: 13px;
+      opacity: 0.65;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      line-height: 1.42;
+      opacity: 0.78;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 26px;
+      padding: 18px;
+      margin-top: 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .setup-card,
+    .reveal-card,
+    .ready-card {
+      min-height: 390px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 17px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.3);
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-top: 9px;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.55);
+    }
+
+    select {
+      appearance: none;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 15px;
+      margin-top: 12px;
+      background: linear-gradient(135deg, #8e44ff, #ff4fd8);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(255,79,216,0.2);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button.secondary {
+      background: rgba(255,255,255,0.12);
+      box-shadow: none;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    button.danger {
+      background: rgba(255,80,80,0.22);
+      border: 1px solid rgba(255,100,100,0.3);
+      box-shadow: none;
+    }
+
+    .name-list {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      overflow: visible;
+      max-height: none;
+    }
+
+    .name-list input {
+      margin-top: 0;
+      padding: 12px 14px;
+      border-radius: 15px;
+      font-size: 15px;
+    }
+
+    .players-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    .player-pill {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.07));
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .player-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8e44ff, #ff4fd8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 13px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .player-name {
+      font-weight: bold;
+    }
+
+    .big-name {
+      font-size: 32px;
+      text-align: center;
+      margin: 0 0 8px;
+    }
+
+    .info-text {
+      text-align: center;
+      opacity: 0.8;
+      line-height: 1.45;
+      font-size: 15px;
+    }
+
+    .button-height-area {
+      min-height: 128px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      margin-top: auto;
+    }
+
+    .secret-box {
+      margin-top: 14px;
+      padding: 22px 16px;
+      border-radius: 24px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(142,68,255,0.22), rgba(255,79,216,0.14));
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .secret-label {
+      font-size: 13px;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .secret-word {
+      font-size: 34px;
+      font-weight: bold;
+    }
+
+    .turn-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      gap: 10px;
+      padding-top: 34px;
+    }
+
+    .turn-player {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .round-badge {
+      font-size: 13px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.12);
+      white-space: nowrap;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 44px;
+      font-weight: bold;
+      margin: 6px 0 8px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 360px;
+      background: #f7f7f7;
+      border-radius: 22px;
+      display: block;
+      touch-action: none;
+      border: 3px solid rgba(255,255,255,0.2);
+    }
+
+    .small-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .final-drawing {
+      width: 100%;
+      background: white;
+      border-radius: 18px;
+      margin-top: 16px;
+      display: block;
+    }
+
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.55;
+      line-height: 1.4;
+    }
+
+    @media (max-height: 760px) {
+      .app {
+        min-height: auto;
+      }
+
+      .top {
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .setup-card,
+      .reveal-card,
+      .ready-card {
+        min-height: 350px;
+      }
+
+      canvas {
+        height: 320px;
+      }
+
+      .button-height-area {
+        min-height: 105px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <a href="index.html" class="back-btn">‹</a>
+
+    <section id="setupScreen">
+      <div class="top">
+        <div class="logo">VorsZone</div>
+        <h1>TegnX</h1>
+        <p class="subtitle">
+          Én spiller vet ikke ordet. Alle andre får ordet. Den ene spilleren får bare ett vagt hint.
+          Alle tegner på samme tegning.
+        </p>
+      </div>
+
+      <div class="card setup-card">
+        <label>Antall spillere</label>
+        <select id="playerCount">
+          <option value="3" selected>3 spillere</option>
+          <option value="4">4 spillere</option>
+          <option value="5">5 spillere</option>
+          <option value="6">6 spillere</option>
+          <option value="7">7 spillere</option>
+          <option value="8">8 spillere</option>
+          <option value="9">9 spillere</option>
+          <option value="10">10 spillere</option>
+          <option value="11">11 spillere</option>
+          <option value="12">12 spillere</option>
+        </select>
+
+        <button id="nameToggleBtn" onclick="toggleNameInputs()">Legg til navn</button>
+
+        <div id="nameInputs" class="name-list hidden"></div>
+
+        <label>Antall tegnerunder</label>
+        <select id="roundsSelect">
+          <option value="1">1 runde</option>
+          <option value="2">2 runder</option>
+          <option value="3" selected>3 runder</option>
+          <option value="4">4 runder</option>
+          <option value="5">5 runder</option>
+        </select>
+
+        <div class="button-height-area">
+          <button onclick="startGame()">Start spill</button>
+        </div>
+      </div>
+
+      <div class="footer">
+        18+ hvis spillet brukes som drikkelek. Drikk ansvarlig.
+      </div>
+    </section>
+
+    <section id="revealScreen" class="hidden">
+      <div class="top">
+        <div class="logo">Hemmelig ord</div>
+        <h1>Send mobilen videre</h1>
+        <p class="subtitle">Bare spilleren på skjermen skal se.</p>
+      </div>
+
+      <div class="card reveal-card">
+        <div class="big-name" id="revealName"></div>
+        <p class="info-text">Trykk for å vise ditt ord eller hint.</p>
+
+        <div class="button-height-area">
+          <button id="showSecretBtn" onclick="showSecret()">Vis mitt ord</button>
+
+          <div id="secretBox" class="secret-box hidden">
+            <div class="secret-label" id="secretLabel"></div>
+            <div class="secret-word" id="secretWord"></div>
+          </div>
+
+          <button id="nextRevealBtn" class="hidden" onclick="nextReveal()">Skjul og neste spiller</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="readyDrawScreen" class="hidden">
+      <div class="top">
+        <div class="logo">Tegnerekkefølge</div>
+        <h1>Klar til å tegne</h1>
+        <p class="subtitle">
+          Rekkefølgen velges tilfeldig én gang og holdes lik gjennom alle rundene.
+        </p>
+      </div>
+
+      <div class="card ready-card">
+        <div id="orderList" class="players-list"></div>
+
+        <div class="button-height-area">
+          <button onclick="startDrawing()">Start tegning</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="drawScreen" class="hidden">
+      <div class="turn-box">
+        <div>
+          <div class="turn-player" id="currentDrawer"></div>
+          <div class="subtitle">Legg til noe på tegningen. Du har 20 sekunder.</div>
+        </div>
+        <div class="round-badge" id="roundBadge"></div>
+      </div>
+
+      <div class="timer" id="timer">20</div>
+
+      <canvas id="canvas"></canvas>
+
+      <div class="small-buttons">
+        <button class="secondary" onclick="undoLastStroke()">Angre</button>
+        <button onclick="finishTurn()">Ferdig</button>
+      </div>
+
+      <button class="danger" onclick="endGame()">Avslutt</button>
+    </section>
+
+    <section id="resultScreen" class="hidden">
+      <div class="top">
+        <div class="logo">Diskusjon</div>
+        <h1>Hvem vet ikke ordet?</h1>
+        <p class="subtitle">Se på felles-tegningen, diskuter og stem.</p>
+      </div>
+
+      <div class="card">
+        <button onclick="toggleSecretPlayer()">Vis / skjul fasit</button>
+        <p id="secretPlayerReveal" class="info-text hidden" style="margin-top:12px;"></p>
+
+        <img id="finalDrawing" class="final-drawing" alt="Ferdig tegning">
+
+        <button class="secondary" onclick="restartSamePlayers()">Ny runde med samme spillere</button>
+        <button class="danger" onclick="endGame()">Tilbake til meny</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const wordList = [
+      { word: "Strand", hint: "varm" },
+      { word: "Pizza", hint: "digg" },
+      { word: "Hund", hint: "lojal" },
+      { word: "Fest", hint: "kaos" },
+      { word: "Bil", hint: "fart" },
+      { word: "Kino", hint: "mørkt" },
+      { word: "Skole", hint: "stress" },
+      { word: "Syden", hint: "ferie" },
+      { word: "Burger", hint: "mett" },
+      { word: "Trening", hint: "sliten" },
+      { word: "Fotball", hint: "konkurranse" },
+      { word: "Flyplass", hint: "reise" },
+      { word: "Nattklubb", hint: "høylytt" },
+      { word: "Jul", hint: "koselig" },
+      { word: "Sommer", hint: "lys" },
+      { word: "Vinter", hint: "kald" },
+      { word: "Kaffe", hint: "våken" },
+      { word: "Eksamen", hint: "nerver" },
+      { word: "Hytte", hint: "rolig" },
+      { word: "Date", hint: "kleint" },
+      { word: "Taxi", hint: "hjem" },
+      { word: "Konsert", hint: "bråk" },
+      { word: "Regn", hint: "grått" },
+      { word: "Hotell", hint: "luksus" },
+      { word: "Båt", hint: "flytende" }
+    ];
+
+    let players = [];
+    let turnOrder = [];
+    let drawingRounds = 3;
+    let chosenWord = null;
+    let secretPlayer = null;
+    let revealIndex = 0;
+    let currentRound = 1;
+    let currentPlayerIndex = 0;
+    let timerInterval = null;
+    let timeLeft = 20;
+    let drawing = false;
+    let savedCanvasStates = [];
+    let namesCreated = false;
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    function showScreen(screenId) {
+      document.getElementById("setupScreen").classList.add("hidden");
+      document.getElementById("revealScreen").classList.add("hidden");
+      document.getElementById("readyDrawScreen").classList.add("hidden");
+      document.getElementById("drawScreen").classList.add("hidden");
+      document.getElementById("resultScreen").classList.add("hidden");
+
+      document.getElementById(screenId).classList.remove("hidden");
+    }
+
+    function toggleNameInputs() {
+      const box = document.getElementById("nameInputs");
+      const btn = document.getElementById("nameToggleBtn");
+
+      if (!box.classList.contains("hidden")) {
+        box.classList.add("hidden");
+        btn.textContent = "Legg til navn";
+        return;
+      }
+
+      if (!namesCreated) {
+        createNameInputs();
+        namesCreated = true;
+      }
+
+      box.classList.remove("hidden");
+      btn.textContent = "Skjul navn";
+    }
+
+    function createNameInputs() {
+      const count = Number(document.getElementById("playerCount").value);
+      const box = document.getElementById("nameInputs");
+      box.innerHTML = "";
+
+      for (let i = 1; i <= count; i++) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Spiller " + i;
+        input.className = "nameInput";
+        box.appendChild(input);
+      }
+    }
+
+    document.getElementById("playerCount").addEventListener("change", function() {
+      namesCreated = false;
+      document.getElementById("nameInputs").innerHTML = "";
+      document.getElementById("nameInputs").classList.add("hidden");
+      document.getElementById("nameToggleBtn").textContent = "Legg til navn";
+    });
+
+    function getPlayers() {
+      const count = Number(document.getElementById("playerCount").value);
+      const inputs = document.querySelectorAll(".nameInput");
+      players = [];
+
+      for (let i = 0; i < count; i++) {
+        let name = "";
+
+        if (inputs[i]) {
+          name = inputs[i].value.trim();
+        }
+
+        if (name === "") {
+          name = "Spiller " + (i + 1);
+        }
+
+        players.push(name);
+      }
+    }
+
+    function shuffleArray(array) {
+      let newArray = [...array];
+
+      for (let i = newArray.length - 1; i > 0; i--) {
+        let randomIndex = Math.floor(Math.random() * (i + 1));
+        let temp = newArray[i];
+        newArray[i] = newArray[randomIndex];
+        newArray[randomIndex] = temp;
+      }
+
+      return newArray;
+    }
+
+    function startGame() {
+      getPlayers();
+
+      drawingRounds = Number(document.getElementById("roundsSelect").value);
+      chosenWord = wordList[Math.floor(Math.random() * wordList.length)];
+      secretPlayer = players[Math.floor(Math.random() * players.length)];
+      turnOrder = shuffleArray(players);
+
+      revealIndex = 0;
+      currentRound = 1;
+      currentPlayerIndex = 0;
+      savedCanvasStates = [];
+
+      showRevealPlayer();
+      showScreen("revealScreen");
+    }
+
+    function showRevealPlayer() {
+      document.getElementById("revealName").textContent = players[revealIndex];
+      document.getElementById("secretBox").classList.add("hidden");
+      document.getElementById("nextRevealBtn").classList.add("hidden");
+      document.getElementById("showSecretBtn").classList.remove("hidden");
+    }
+
+    function showSecret() {
+      const player = players[revealIndex];
+      const doesNotKnowWord = player === secretPlayer;
+
+      document.getElementById("secretBox").classList.remove("hidden");
+      document.getElementById("nextRevealBtn").classList.remove("hidden");
+      document.getElementById("showSecretBtn").classList.add("hidden");
+
+      if (doesNotKnowWord) {
+        document.getElementById("secretLabel").textContent = "Du vet ikke ordet. Hintet ditt er:";
+        document.getElementById("secretWord").textContent = chosenWord.hint;
+      } else {
+        document.getElementById("secretLabel").textContent = "Ordet ditt er:";
+        document.getElementById("secretWord").textContent = chosenWord.word;
+      }
+    }
+
+    function nextReveal() {
+      revealIndex++;
+
+      if (revealIndex >= players.length) {
+        showOrderScreen();
+        showScreen("readyDrawScreen");
+      } else {
+        showRevealPlayer();
+      }
+    }
+
+    function showOrderScreen() {
+      const orderList = document.getElementById("orderList");
+      orderList.innerHTML = "";
+
+      for (let i = 0; i < turnOrder.length; i++) {
+        const card = document.createElement("div");
+        card.className = "player-pill";
+
+        const number = document.createElement("div");
+        number.className = "player-number";
+        number.textContent = i + 1;
+
+        const name = document.createElement("div");
+        name.className = "player-name";
+        name.textContent = turnOrder[i];
+
+        card.appendChild(number);
+        card.appendChild(name);
+        orderList.appendChild(card);
+      }
+    }
+
+    function startDrawing() {
+      showScreen("drawScreen");
+      resizeCanvas();
+      makeCanvasWhite();
+      saveCanvasState();
+      prepareTurn();
+    }
+
+    function prepareTurn() {
+      clearInterval(timerInterval);
+
+      const player = turnOrder[currentPlayerIndex];
+
+      document.getElementById("currentDrawer").textContent = player + " sin tur";
+      document.getElementById("roundBadge").textContent = "Runde " + currentRound + " av " + drawingRounds;
+
+      timeLeft = 20;
+      document.getElementById("timer").textContent = timeLeft;
+
+      timerInterval = setInterval(function() {
+        timeLeft--;
+        document.getElementById("timer").textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          finishTurn();
+        }
+      }, 1000);
+    }
+
+    function finishTurn() {
+      clearInterval(timerInterval);
+      saveCanvasState();
+
+      currentPlayerIndex++;
+
+      if (currentPlayerIndex >= turnOrder.length) {
+        currentPlayerIndex = 0;
+        currentRound++;
+      }
+
+      if (currentRound > drawingRounds) {
+        showResults();
+      } else {
+        prepareTurn();
+      }
+    }
+
+    function showResults() {
+      const imageData = canvas.toDataURL("image/png");
+
+      document.getElementById("finalDrawing").src = imageData;
+
+      document.getElementById("secretPlayerReveal").classList.add("hidden");
+      document.getElementById("secretPlayerReveal").innerHTML =
+        "<b>" + secretPlayer + "</b> visste ikke ordet. Ordet var <b>" + chosenWord.word + "</b>. Hintet var <b>" + chosenWord.hint + "</b>.";
+
+      showScreen("resultScreen");
+    }
+
+    function toggleSecretPlayer() {
+      document.getElementById("secretPlayerReveal").classList.toggle("hidden");
+    }
+
+    function restartSamePlayers() {
+      chosenWord = wordList[Math.floor(Math.random() * wordList.length)];
+      secretPlayer = players[Math.floor(Math.random() * players.length)];
+      turnOrder = shuffleArray(players);
+
+      revealIndex = 0;
+      currentRound = 1;
+      currentPlayerIndex = 0;
+      savedCanvasStates = [];
+
+      showRevealPlayer();
+      showScreen("revealScreen");
+    }
+
+    function endGame() {
+      clearInterval(timerInterval);
+      showScreen("setupScreen");
+    }
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+
+      ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+
+      ctx.lineWidth = 5;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#111";
+    }
+
+    function makeCanvasWhite() {
+      ctx.fillStyle = "#f7f7f7";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function saveCanvasState() {
+      savedCanvasStates.push(canvas.toDataURL("image/png"));
+    }
+
+    function undoLastStroke() {
+      if (savedCanvasStates.length <= 1) {
+        return;
+      }
+
+      savedCanvasStates.pop();
+
+      const img = new Image();
+      img.src = savedCanvasStates[savedCanvasStates.length - 1];
+
+      img.onload = function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          canvas.width / window.devicePixelRatio,
+          canvas.height / window.devicePixelRatio
+        );
+      };
+    }
+
+    function getPosition(event) {
+      const rect = canvas.getBoundingClientRect();
+
+      let clientX;
+      let clientY;
+
+      if (event.touches && event.touches.length > 0) {
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+      } else {
+        clientX = event.clientX;
+        clientY = event.clientY;
+      }
+
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    function startDraw(event) {
+      event.preventDefault();
+      drawing = true;
+
+      const pos = getPosition(event);
+
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(event) {
+      if (!drawing) return;
+
+      event.preventDefault();
+
+      const pos = getPosition(event);
+
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    }
+
+    function stopDraw(event) {
+      if (!drawing) return;
+
+      event.preventDefault();
+      drawing = false;
+      ctx.closePath();
+
+      saveCanvasState();
+    }
+
+    canvas.addEventListener("mousedown", startDraw);
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mouseup", stopDraw);
+    canvas.addEventListener("mouseleave", stopDraw);
+
+    canvas.addEventListener("touchstart", startDraw);
+    canvas.addEventListener("touchmove", draw);
+    canvas.addEventListener("touchend", stopDraw);
+  </script>
+</body>
+</html>
