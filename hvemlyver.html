@@ -4,6 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hvem Lyver?</title>
+  <link rel="icon" type="image/png" href="Bilder/icon-1024.png">
+  <link rel="apple-touch-icon" href="Bilder/icon-1024.png">
+  <link rel="shortcut icon" href="Bilder/icon-1024.png">
+
+
+  <!-- PWA / App-installasjon -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#120817">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="VorsZone">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <style>
     * {
@@ -672,6 +683,14 @@
 
     createNameInputs();
   </script>
-<script src="cookies.js"></script>
+  <script src="cookies.js"></script>
+
+  <!-- Registrerer PWA service worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+
 </body>
 </html>
