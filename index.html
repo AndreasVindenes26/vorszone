@@ -1,4 +1,4 @@
-<!DOCTYPE html>     
+<!DOCTYPE html>      
 <html lang="no">
 <head>
   <meta charset="UTF-8">
@@ -133,6 +133,23 @@
       justify-content: center;
       gap: 14px;
       flex-wrap: wrap;
+    }
+
+    .app-hint {
+      margin-top: 25px;
+      font-size: 13px;
+      color: #aaa;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: inline-block;
+      line-height: 1.6;
+    }
+
+    .app-hint span {
+      color: #777;
+      font-size: 12px;
     }
 
     .btn {
@@ -412,6 +429,11 @@
         text-align: center;
       }
 
+      .app-hint {
+        width: 100%;
+        font-size: 12px;
+      }
+
       .game-card {
         padding: 22px;
         min-height: auto;
@@ -492,6 +514,12 @@
       <div class="hero-buttons">
         <a href="#spill" class="btn btn-main">Velg spill</a>
         <a href="#info" class="btn btn-secondary">Hvordan funker det?</a>
+      </div>
+
+      <div class="app-hint">
+        📲 Legg VorsZone til hjemskjermen for app-opplevelse
+        <br>
+        <span>iPhone: Safari → Del → Legg til på Hjem-skjerm</span>
       </div>
     </section>
 
