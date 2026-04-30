@@ -18,6 +18,13 @@
   <link rel="apple-touch-icon" href="Bilder/icon-1024.png">
   <link rel="shortcut icon" href="Bilder/icon-1024.png">
 
+  <!-- PWA / App-installasjon -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#120817">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="VorsZone">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <style>
     * {
       margin: 0;
@@ -676,6 +683,13 @@
     function resetCookies() {
       localStorage.removeItem("cookieValg");
       alert("Cookie-valget er nullstilt. Du vil bli spurt på nytt neste gang siden lastes.");
+    }
+  </script>
+
+  <!-- Registrerer PWA service worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
     }
   </script>
 
