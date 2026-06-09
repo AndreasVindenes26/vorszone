@@ -1,4 +1,4 @@
-const CACHE_NAME = "vorszone-v1";
+const CACHE_NAME = "vorszone-v3";
 
 const FILES_TO_CACHE = [
   "/",
@@ -6,17 +6,35 @@ const FILES_TO_CACHE = [
   "/manifest.json"
 ];
 
-self.addEventListener("install", function(event) {
+self.addEventListener("install", (event) => {
+  self.skipWaiting();
+
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
+    caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(FILES_TO_CACHE);
     })
   );
 });
 
-self.addEventListener("fetch", function(event) {
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
+
+  self.clients.claim();
+});
+
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then(function(response) {
+    caches.match(event.request).then((response) => {
       return response || fetch(event.request);
     })
   );
