@@ -206,6 +206,19 @@
       overflow: hidden;
     }
 
+    .popular-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: linear-gradient(135deg, #ffcf5a, #ff6b6b);
+      color: #111;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(255,107,107,0.35);
+    }
+
     .game-card:hover {
       transform: translateY(-6px);
       border-color: rgba(255,207,90,0.6);
@@ -529,10 +542,19 @@
       <div class="games">
 
         <div class="game-card">
+          <div class="popular-badge">🔥 Populær</div>
           <div class="game-icon">🥚</div>
           <h3>EggShot</h3>
           <p>Trykk på egg etter tur. Noen er trygge, noen gir smell.</p>
           <a href="eggshot.html" class="btn btn-main">Spill</a>
+        </div>
+
+        <div class="game-card">
+          <div class="popular-badge">🔥 Populær</div>
+          <div class="game-icon">🚌</div>
+          <h3>Bussen</h3>
+          <p>Gjett kortene, kryss broene og kom deg gjennom hele bussen.</p>
+          <a href="bussen.html" class="btn btn-main">Spill</a>
         </div>
 
         <div class="game-card">
