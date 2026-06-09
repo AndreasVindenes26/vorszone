@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bussen – VorsZone</title>
+  <meta name="description" content="Spill Bussen på VorsZone. Mobilvennlig kortspill med spillere, resultater og hukommelse. 18+. Spill ansvarlig.">
+
+  <link rel="icon" type="image/png" href="Bilder/icon-1024.png">
+  <link rel="apple-touch-icon" href="Bilder/icon-1024.png">
+  <link rel="manifest" href="manifest.json">
+
+  <meta name="theme-color" content="#061722">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="VorsZone">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      color: white;
+      background:
+        radial-gradient(circle at 15% 5%, rgba(0, 255, 210, 0.20), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(255, 137, 43, 0.22), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(127, 65, 255, 0.16), transparent 35%),
+        linear-gradient(145deg, #061722, #05070d 62%, #140716);
+      padding: 12px;
+      overflow-x: hidden;
+    }
+
+    body.flash-red {
+      animation: flashRed 0.45s;
+    }
+
+    body.flash-green {
+      animation: flashGreen 0.45s;
+    }
+
+    @keyframes flashRed {
+      0% { background-color: rgba(255,0,60,0.45); }
+      100% { background-color: transparent; }
+    }
+
+    @keyframes flashGreen {
+      0% { background-color: rgba(0,255,170,0.28); }
+      100% { background-color: transparent; }
+    }
+
+    header {
+      max-width: 820px;
+      margin: 0 auto 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      color: white;
+      font-weight: 900;
+      font-size: 22px;
+    }
+
+    .logo img {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+    }
+
+    .logo span {
+      color: #24ffd2;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      color: white;
+      font-size: 13px;
+      font-weight: 900;
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 14px 0 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #24ffd2;
+      background: rgba(36,255,210,0.10);
+      border: 1px solid rgba(36,255,210,0.26);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 48px;
+      line-height: 0.95;
+      margin-bottom: 10px;
+      letter-spacing: -1.7px;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,0.72);
+      font-size: 15px;
+      line-height: 1.5;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .screen {
+      margin-top: 14px;
+      background: rgba(255,255,255,0.075);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 30px;
+      padding: 15px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+      backdrop-filter: blur(14px);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .setup-card {
+      background:
+        linear-gradient(135deg, rgba(36,255,210,0.11), rgba(255,137,43,0.08)),
+        rgba(0,0,0,0.20);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 25px;
+      padding: 17px;
+    }
+
+    .setup-card h2 {
+      font-size: 28px;
+      letter-spacing: -0.7px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .intro {
+      color: rgba(255,255,255,0.70);
+      line-height: 1.5;
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .mini-rules {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .mini {
+      background: rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .mini strong {
+      display: block;
+      font-size: 21px;
+      margin-bottom: 5px;
+    }
+
+    .mini span {
+      color: rgba(255,255,255,0.68);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    label {
+      display: block;
+      color: rgba(255,255,255,0.78);
+      font-size: 13px;
+      font-weight: 900;
+      margin: 12px 0 8px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 17px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.34);
+      color: white;
+      font-size: 16px;
+      outline: none;
+      font-weight: 800;
+    }
+
+    select {
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #24ffd2 50%),
+        linear-gradient(135deg, #24ffd2 50%, transparent 50%);
+      background-position:
+        calc(100% - 22px) 21px,
+        calc(100% - 15px) 21px;
+      background-size: 7px 7px, 7px 7px;
+      background-repeat: no-repeat;
+    }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 18px;
+      padding: 15px 17px;
+      font-size: 15px;
+      font-weight: 900;
+      transition: 0.15s;
+      min-height: 52px;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-main {
+      color: #061014;
+      background: linear-gradient(135deg, #24ffd2, #ff9b2d);
+      box-shadow: 0 12px 28px rgba(36,255,210,0.12);
+    }
+
+    .btn-soft {
+      color: white;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .btn-red {
+      color: white;
+      background: linear-gradient(135deg, #ff315d, #a80d2c);
+    }
+
+    .btn-black {
+      color: white;
+      background: linear-gradient(135deg, #303238, #030303);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .btn-orange {
+      color: #160b03;
+      background: linear-gradient(135deg, #ffcf4a, #ff7a1a);
+    }
+
+    .btn-blue {
+      color: white;
+      background: linear-gradient(135deg, #3287ff, #4930ff);
+    }
+
+    .start-btn {
+      width: 100%;
+      margin-top: 15px;
+      font-size: 16px;
+    }
+
+    .game-head {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr 0.8fr;
+      gap: 8px;
+      margin-bottom: 11px;
+    }
+
+    .panel {
+      background: rgba(0,0,0,0.26);
+      border: 1px solid rgba(255,255,255,0.11);
+      border-radius: 21px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .panel.player {
+      text-align: left;
+      background:
+        linear-gradient(135deg, rgba(36,255,210,0.13), rgba(255,137,43,0.08)),
+        rgba(0,0,0,0.24);
+    }
+
+    .panel small {
+      color: rgba(255,255,255,0.58);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .panel strong {
+      display: block;
+      color: #ffbd45;
+      font-size: 21px;
+      margin-top: 4px;
+      line-height: 1.08;
+      word-break: break-word;
+    }
+
+    .panel.player strong {
+      color: #24ffd2;
+      font-size: 23px;
+    }
+
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 5px;
+      margin: 10px 0 12px;
+    }
+
+    .dot {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.13);
+    }
+
+    .dot.done {
+      background: #ffbd45;
+    }
+
+    .dot.active {
+      background: #24ffd2;
+      box-shadow: 0 0 12px rgba(36,255,210,0.65);
+    }
+
+    .message {
+      min-height: 82px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.35;
+      padding: 14px;
+      border-radius: 22px;
+      font-size: 15px;
+      color: rgba(255,255,255,0.92);
+      background: rgba(0,0,0,0.30);
+      border: 1px solid rgba(255,255,255,0.11);
+      margin-bottom: 13px;
+    }
+
+    .message strong {
+      color: #24ffd2;
+      font-size: 17px;
+    }
+
+    .message span {
+      color: rgba(255,255,255,0.68);
+      font-size: 13px;
+    }
+
+    .message.good {
+      border-color: rgba(36,255,210,0.32);
+      background: rgba(36,255,210,0.10);
+    }
+
+    .message.bad {
+      border-color: rgba(255,49,93,0.35);
+      background: rgba(255,49,93,0.11);
+    }
+
+    .board {
+      background:
+        radial-gradient(circle at center, rgba(36,255,210,0.10), transparent 52%),
+        rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 26px;
+      padding: 14px 9px;
+      margin-bottom: 13px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .bridge {
+      width: fit-content;
+      margin: 9px auto;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(255,189,69,0.10);
+      border: 1px dashed rgba(255,189,69,0.48);
+      color: #ffbd45;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+    }
+
+    .card {
+      width: 70px;
+      height: 98px;
+      border-radius: 17px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      font-weight: 900;
+      transition: transform 0.42s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      border: 2px solid rgba(255,255,255,0.18);
+      box-shadow: 0 14px 24px rgba(0,0,0,0.38);
+      overflow: hidden;
+    }
+
+    .card.back {
+      background:
+        linear-gradient(135deg, rgba(36,255,210,0.18), rgba(255,137,43,0.11)),
+        linear-gradient(145deg, #0c2432, #08070d);
+    }
+
+    .card.back::before {
+      content: "VZ";
+      position: absolute;
+      z-index: 3;
+      font-size: 19px;
+      letter-spacing: 1px;
+      color: #24ffd2;
+      text-shadow: 0 0 12px rgba(36,255,210,0.48);
+    }
+
+    .card.back::after {
+      content: "";
+      position: absolute;
+      inset: 9px;
+      border-radius: 13px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background:
+        radial-gradient(circle, rgba(255,255,255,0.13), transparent 35%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.055) 0 5px, transparent 5px 10px);
+    }
+
+    .card.done {
+      background: radial-gradient(circle at top, #ffffff, #e7e9ee);
+      color: #111;
+      border-color: rgba(255,255,255,0.88);
+      transform: rotateY(180deg);
+    }
+
+    .card-content {
+      transform: rotateY(180deg);
+      text-align: center;
+    }
+
+    .card.active {
+      border-color: #24ffd2;
+      box-shadow: 0 0 25px rgba(36,255,210,0.35), 0 14px 24px rgba(0,0,0,0.38);
+      transform: translateY(-4px);
+    }
+
+    .card.done.active {
+      transform: rotateY(180deg) translateY(-4px);
+    }
+
+    .card.wrong {
+      animation: wrongShake 0.42s;
+      border-color: #ff315d;
+      box-shadow: 0 0 25px rgba(255,49,93,0.42);
+    }
+
+    .card.correct {
+      box-shadow: 0 0 25px rgba(36,255,210,0.42);
+    }
+
+    .red {
+      color: #e51d43 !important;
+    }
+
+    .black {
+      color: #111 !important;
+    }
+
+    .card-number {
+      position: absolute;
+      top: 7px;
+      left: 8px;
+      z-index: 4;
+      font-size: 10px;
+      color: rgba(255,255,255,0.48);
+    }
+
+    .card.done .card-number {
+      color: rgba(0,0,0,0.35);
+      transform: rotateY(180deg);
+    }
+
+    @keyframes wrongShake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    .question {
+      background: rgba(0,0,0,0.27);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .question h2 {
+      font-size: 23px;
+      margin-bottom: 6px;
+    }
+
+    .question p {
+      color: rgba(255,255,255,0.68);
+      font-size: 14px;
+      line-height: 1.45;
+      margin-bottom: 13px;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .answers.one {
+      grid-template-columns: 1fr;
+    }
+
+    .scoreboard {
+      margin-top: 14px;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 24px;
+      padding: 14px;
+    }
+
+    .scoreboard h3 {
+      font-size: 17px;
+      margin-bottom: 10px;
+      color: #24ffd2;
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.75);
+      font-size: 13px;
+      align-items: center;
+    }
+
+    .score-row:last-child {
+      border-bottom: none;
+    }
+
+    .score-row strong {
+      color: white;
+    }
+
+    .score-row .active-name {
+      color: #24ffd2;
+    }
+
+    .score-pill {
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      text-align: center;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .result-card {
+      text-align: center;
+      background:
+        linear-gradient(135deg, rgba(36,255,210,0.12), rgba(255,137,43,0.09)),
+        rgba(0,0,0,0.24);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 26px;
+      padding: 20px;
+    }
+
+    .result-card h2 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .result-card p {
+      color: rgba(255,255,255,0.72);
+      line-height: 1.5;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .loser-box {
+      margin: 15px 0;
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,49,93,0.12);
+      border: 1px solid rgba(255,49,93,0.28);
+    }
+
+    .loser-box small {
+      color: rgba(255,255,255,0.58);
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .loser-box strong {
+      display: block;
+      margin-top: 6px;
+      color: #ffbd45;
+      font-size: 28px;
+    }
+
+    .result-list {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .result-row {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 8px;
+      align-items: center;
+      background: rgba(0,0,0,0.24);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px;
+      padding: 11px;
+      font-size: 14px;
+    }
+
+    .result-row strong {
+      color: white;
+    }
+
+    .result-row span {
+      text-align: right;
+      color: #24ffd2;
+      font-weight: 900;
+    }
+
+    .result-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .rules-modern {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .rule-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 22px;
+      padding: 15px;
+    }
+
+    .rule-card h3 {
+      color: #24ffd2;
+      margin-bottom: 7px;
+      font-size: 16px;
+    }
+
+    .rule-card p, .rule-card li {
+      color: rgba(255,255,255,0.68);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .rule-card ul {
+      padding-left: 18px;
+    }
+
+    .safe {
+      margin-top: 12px;
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      color: rgba(255,255,255,0.42);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 32px 0 12px;
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.52);
+    }
+
+    @media (max-width: 520px) {
+      h1 {
+        font-size: 42px;
+      }
+
+      .screen {
+        padding: 12px;
+        border-radius: 26px;
+      }
+
+      .setup-card {
+        padding: 15px;
+      }
+
+      .mini-rules {
+        grid-template-columns: 1fr;
+      }
+
+      .game-head {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .panel.player {
+        grid-column: span 2;
+      }
+
+      .card {
+        width: 63px;
+        height: 90px;
+        font-size: 23px;
+        border-radius: 15px;
+      }
+
+      .row {
+        gap: 7px;
+      }
+
+      .bridge {
+        font-size: 10px;
+        padding: 7px 11px;
+      }
+    }
+
+    @media (max-width: 365px) {
+      .card {
+        width: 56px;
+        height: 82px;
+        font-size: 20px;
+      }
+
+      .answers, .result-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <img src="Bilder/icon-1024.png" alt="VorsZone logo">
+      Vors<span>Zone</span>
+    </a>
+
+    <a href="index.html#spill" class="back-btn">← Spill</a>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="tag">🚌 Bussen · mobilspill · 18+</div>
+      <h1>Bussen</h1>
+      <p>
+        Gjett kortene, kryss broene og kom deg til mål. Bommer du, starter samme spiller på nytt fra kort 1.
+      </p>
+    </section>
+
+    <section class="screen" id="setupScreen">
+      <div class="setup-card">
+        <h2>Sett opp spillet</h2>
+        <p class="intro">
+          Velg antall spillere. Alle spiller én runde hver. Den som bruker flest forsøk må drikke.
+        </p>
+
+        <div class="mini-rules">
+          <div class="mini">
+            <strong>🎯</strong>
+            <span>Gjett riktig kort</span>
+          </div>
+
+          <div class="mini">
+            <strong>🌉</strong>
+            <span>Bro = 1 slurk</span>
+          </div>
+
+          <div class="mini">
+            <strong>🔁</strong>
+            <span>Feil = start på nytt</span>
+          </div>
+        </div>
+
+        <label for="playerCount">Antall spillere</label>
+        <select id="playerCount" onchange="createNameInputs()">
+          <option value="1">1 spiller</option>
+          <option value="2">2 spillere</option>
+          <option value="3">3 spillere</option>
+          <option value="4">4 spillere</option>
+          <option value="5">5 spillere</option>
+          <option value="6">6 spillere</option>
+          <option value="7">7 spillere</option>
+          <option value="8">8 spillere</option>
+          <option value="9">9 spillere</option>
+          <option value="10">10 spillere</option>
+        </select>
+
+        <div class="name-grid" id="nameInputs"></div>
+
+        <button class="btn-main start-btn" onclick="startGame()">Start bussen</button>
+
+        <p class="safe">
+          18+ | Kun for underholdning. Ingen skal presses til å drikke.
+        </p>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="gameScreen">
+
+      <div class="game-head">
+        <div class="panel player">
+          <small>SPILLER NÅ</small>
+          <strong id="currentPlayer">Spiller 1</strong>
+        </div>
+
+        <div class="panel">
+          <small>FORSØK</small>
+          <strong id="tries">1</strong>
+        </div>
+
+        <div class="panel">
+          <small>KORT</small>
+          <strong id="position">1 / 8</strong>
+        </div>
+      </div>
+
+      <div class="progress" id="progressBar"></div>
+
+      <div class="message" id="message">
+        <strong>Klar?</strong>
+        <span>Velg et svar. Kortet snur seg automatisk.</span>
+      </div>
+
+      <div class="board">
+        <div class="row">
+          <div class="card back active" id="card0"><span class="card-number">1</span></div>
+          <div class="card back" id="card1"><span class="card-number">2</span></div>
+          <div class="card back" id="card2"><span class="card-number">3</span></div>
+        </div>
+
+        <div class="bridge">BRO 1 · ta 1 slurk</div>
+
+        <div class="row">
+          <div class="card back" id="card3"><span class="card-number">4</span></div>
+          <div class="card back" id="card4"><span class="card-number">5</span></div>
+        </div>
+
+        <div class="bridge">BRO 2 · ta 1 slurk</div>
+
+        <div class="row">
+          <div class="card back" id="card5"><span class="card-number">6</span></div>
+          <div class="card back" id="card6"><span class="card-number">7</span></div>
+          <div class="card back" id="card7"><span class="card-number">8</span></div>
+        </div>
+      </div>
+
+      <div class="question">
+        <h2 id="questionTitle">Kort 1</h2>
+        <p id="questionText">Gjett fargen på kortet.</p>
+        <div class="answers" id="answerButtons"></div>
+      </div>
+
+      <div class="scoreboard">
+        <h3>Scoreboard</h3>
+        <div id="scoreList"></div>
+      </div>
+
+    </section>
+
+    <section class="screen hidden" id="resultScreen">
+      <div class="result-card">
+        <h2>Resultat</h2>
+        <p>Alle har fullført bussen. Den med flest forsøk taper runden.</p>
+
+        <div class="loser-box">
+          <small>MÅ DRIKKE</small>
+          <strong id="loserText">-</strong>
+        </div>
+
+        <div class="result-list" id="resultList"></div>
+
+        <div class="result-buttons">
+          <button class="btn-main" onclick="playAgain()">Spill igjen</button>
+          <button class="btn-soft" onclick="backToSetup()">Tilbake</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="rules-modern">
+      <div class="rule-card">
+        <h3>Hva gjør du?</h3>
+        <p>
+          Se på spørsmålet under kortene. Trykk på svaret du tror er riktig.
+          Kortet snur seg med en gang.
+        </p>
+      </div>
+
+      <div class="rule-card">
+        <h3>Ved feil</h3>
+        <p>
+          Du får se kortet først. Når alle har sett det, trykker du <strong>Snu tilbake</strong>.
+          Kortene er de samme, så prøv å huske dem.
+        </p>
+      </div>
+
+      <div class="rule-card">
+        <h3>Rekkefølge</h3>
+        <ul>
+          <li>Kort 1: Rød eller svart</li>
+          <li>Kort 2: Over eller under kort 1</li>
+          <li>Kort 3: Rød eller svart</li>
+          <li>Bro 1: ta 1 slurk</li>
+          <li>Kort 4: Rød eller svart</li>
+          <li>Kort 5: Over eller under kort 4</li>
+          <li>Bro 2: ta 1 slurk</li>
+          <li>Kort 6: Rød eller svart</li>
+          <li>Kort 7: Over eller under kort 6</li>
+          <li>Kort 8: Rød eller svart</li>
+        </ul>
+      </div>
+
+      <p class="safe">
+        VorsZone oppfordrer ikke til overdreven alkoholkonsum. Bruk vann eller alkoholfritt hvis ønskelig.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 VorsZone – Spill ansvarlig.
+    <br>
+    <a href="https://vindcorp.no">Laget av Vindcorp</a>
+  </footer>
+
+  <script>
+    const suits = ["♥", "♦", "♣", "♠"];
+
+    const values = [
+      { name: "A", number: 14 },
+      { name: "K", number: 13 },
+      { name: "Q", number: 12 },
+      { name: "J", number: 11 },
+      { name: "10", number: 10 },
+      { name: "9", number: 9 },
+      { name: "8", number: 8 },
+      { name: "7", number: 7 },
+      { name: "6", number: 6 },
+      { name: "5", number: 5 },
+      { name: "4", number: 4 },
+      { name: "3", number: 3 },
+      { name: "2", number: 2 }
+    ];
+
+    let players = [];
+    let results = [];
+    let playerIndex = 0;
+
+    let deck = [];
+    let busCards = [];
+    let currentIndex = 0;
+    let tries = 1;
+    let locked = false;
+
+    const setupScreen = document.getElementById("setupScreen");
+    const gameScreen = document.getElementById("gameScreen");
+    const resultScreen = document.getElementById("resultScreen");
+
+    const playerCount = document.getElementById("playerCount");
+    const nameInputs = document.getElementById("nameInputs");
+
+    const currentPlayerEl = document.getElementById("currentPlayer");
+    const triesEl = document.getElementById("tries");
+    const positionEl = document.getElementById("position");
+    const message = document.getElementById("message");
+    const questionTitle = document.getElementById("questionTitle");
+    const questionText = document.getElementById("questionText");
+    const answerButtons = document.getElementById("answerButtons");
+    const progressBar = document.getElementById("progressBar");
+    const scoreList = document.getElementById("scoreList");
+
+    const loserText = document.getElementById("loserText");
+    const resultList = document.getElementById("resultList");
+
+    createNameInputs();
+    createProgress();
+
+    function createNameInputs() {
+      let count = Number(playerCount.value);
+      nameInputs.innerHTML = "";
+
+      for (let i = 1; i <= count; i++) {
+        let input = document.createElement("input");
+        input.type = "text";
+        input.className = "name-input";
+        input.value = "Spiller " + i;
+
+        input.addEventListener("focus", function() {
+          if (input.value === "Spiller " + i) {
+            input.value = "";
+          }
+        });
+
+        input.addEventListener("blur", function() {
+          if (input.value.trim() === "") {
+            input.value = "Spiller " + i;
+          }
+        });
+
+        nameInputs.appendChild(input);
+      }
+    }
+
+    function startGame() {
+      players = [];
+      results = [];
+
+      let inputs = document.querySelectorAll(".name-input");
+
+      for (let i = 0; i < inputs.length; i++) {
+        let name = inputs[i].value.trim();
+
+        if (name === "") {
+          name = "Spiller " + (i + 1);
+        }
+
+        players.push(name);
+
+        results.push({
+          name: name,
+          attempts: null,
+          done: false
+        });
+      }
+
+      setupScreen.classList.add("hidden");
+      resultScreen.classList.add("hidden");
+      gameScreen.classList.remove("hidden");
+
+      playerIndex = 0;
+      startNewBusForPlayer();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function startNewBusForPlayer() {
+      makeDeck();
+      shuffleDeck();
+
+      busCards = deck.slice(0, 8);
+      currentIndex = 0;
+      tries = 1;
+      locked = false;
+
+      hideAllCards();
+      updateStats();
+      updateActiveCard();
+      showQuestion();
+      updateScoreboard();
+
+      message.className = "message";
+      message.innerHTML =
+        "<strong>" + players[playerIndex] + " starter</strong>" +
+        "<span>Trykk på svaret du tror er riktig. Kortet snur seg automatisk.</span>";
+    }
+
+    function makeDeck() {
+      deck = [];
+
+      for (let i = 0; i < suits.length; i++) {
+        for (let j = 0; j < values.length; j++) {
+          let suit = suits[i];
+          let color = suit === "♥" || suit === "♦" ? "red" : "black";
+
+          deck.push({
+            suit: suit,
+            name: values[j].name,
+            number: values[j].number,
+            color: color
+          });
+        }
+      }
+    }
+
+    function shuffleDeck() {
+      for (let i = deck.length - 1; i > 0; i--) {
+        let randomIndex = Math.floor(Math.random() * (i + 1));
+        let temp = deck[i];
+        deck[i] = deck[randomIndex];
+        deck[randomIndex] = temp;
+      }
+    }
+
+    function hideAllCards() {
+      for (let i = 0; i < 8; i++) {
+        let card = document.getElementById("card" + i);
+        card.className = "card back";
+        card.innerHTML = '<span class="card-number">' + (i + 1) + '</span>';
+      }
+    }
+
+    function revealCard(index) {
+      let cardData = busCards[index];
+      let card = document.getElementById("card" + index);
+
+      card.className = "card done";
+      card.classList.add(cardData.color);
+
+      card.innerHTML =
+        '<span class="card-number">' + (index + 1) + '</span>' +
+        '<div class="card-content">' + cardData.name + cardData.suit + '</div>';
+    }
+
+    function updateActiveCard() {
+      for (let i = 0; i < 8; i++) {
+        document.getElementById("card" + i).classList.remove("active");
+      }
+
+      if (currentIndex < 8) {
+        document.getElementById("card" + currentIndex).classList.add("active");
+      }
+
+      updateProgress();
+    }
+
+    function updateStats() {
+      currentPlayerEl.innerText = players[playerIndex];
+      triesEl.innerText = tries;
+      positionEl.innerText = currentIndex < 8 ? (currentIndex + 1) + " / 8" : "Ferdig";
+    }
+
+    function createProgress() {
+      progressBar.innerHTML = "";
+
+      for (let i = 0; i < 8; i++) {
+        let dot = document.createElement("div");
+        dot.className = "dot";
+        progressBar.appendChild(dot);
+      }
+    }
+
+    function updateProgress() {
+      let dots = document.querySelectorAll(".dot");
+
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].className = "dot";
+
+        if (i < currentIndex) {
+          dots[i].classList.add("done");
+        }
+
+        if (i === currentIndex) {
+          dots[i].classList.add("active");
+        }
+      }
+    }
+
+    function getQuestionType(index) {
+      if (index === 0) return "color";
+      if (index === 1) return "higherlower";
+      if (index === 2) return "color";
+      if (index === 3) return "color";
+      if (index === 4) return "higherlower";
+      if (index === 5) return "color";
+      if (index === 6) return "higherlower";
+      if (index === 7) return "color";
+    }
+
+    function showQuestion() {
+      locked = false;
+      updateStats();
+      updateActiveCard();
+
+      let type = getQuestionType(currentIndex);
+
+      if (type === "color") {
+        questionTitle.innerText = "Kort " + (currentIndex + 1);
+        questionText.innerText = "Hva tror du kortet er? Velg rød eller svart.";
+
+        answerButtons.className = "answers";
+        answerButtons.innerHTML =
+          '<button class="btn-red" onclick="chooseAnswer(\'red\')">Rød</button>' +
+          '<button class="btn-black" onclick="chooseAnswer(\'black\')">Svart</button>';
+      }
+
+      if (type === "higherlower") {
+        let previousCard = busCards[currentIndex - 1];
+
+        questionTitle.innerText = "Kort " + (currentIndex + 1);
+        questionText.innerText = "Forrige kort var " + previousCard.name + previousCard.suit + ". Blir neste kort over eller under?";
+
+        answerButtons.className = "answers";
+        answerButtons.innerHTML =
+          '<button class="btn-orange" onclick="chooseAnswer(\'higher\')">Over</button>' +
+          '<button class="btn-blue" onclick="chooseAnswer(\'lower\')">Under</button>';
+      }
+    }
+
+    function chooseAnswer(answer) {
+      if (locked) {
+        return;
+      }
+
+      locked = true;
+      revealCard(currentIndex);
+
+      setTimeout(function() {
+        checkAnswer(answer);
+      }, 520);
+    }
+
+    function checkAnswer(answer) {
+      let type = getQuestionType(currentIndex);
+      let correct = false;
+
+      if (type === "color") {
+        correct = answer === busCards[currentIndex].color;
+      }
+
+      if (type === "higherlower") {
+        let previous = busCards[currentIndex - 1].number;
+        let current = busCards[currentIndex].number;
+
+        if (current === previous) {
+          correct = false;
+        } else if (answer === "higher" && current > previous) {
+          correct = true;
+        } else if (answer === "lower" && current < previous) {
+          correct = true;
+        }
+      }
+
+      if (correct) {
+        correctAnswer();
+      } else {
+        wrongAnswer();
+      }
+    }
+
+    function correctAnswer() {
+      document.body.classList.remove("flash-green");
+      void document.body.offsetWidth;
+      document.body.classList.add("flash-green");
+
+      let card = document.getElementById("card" + currentIndex);
+      card.classList.add("correct");
+
+      currentIndex++;
+
+      if (currentIndex === 3) {
+        message.className = "message good";
+        message.innerHTML =
+          "<strong>Bro 1 passert!</strong>" +
+          "<span>Ta 1 slurk. Fortsett til neste kort.</span>";
+
+        setTimeout(showQuestion, 1050);
+        return;
+      }
+
+      if (currentIndex === 5) {
+        message.className = "message good";
+        message.innerHTML =
+          "<strong>Bro 2 passert!</strong>" +
+          "<span>Ta 1 slurk. Nå er det siste del av bussen.</span>";
+
+        setTimeout(showQuestion, 1050);
+        return;
+      }
+
+      if (currentIndex >= 8) {
+        winGame();
+        return;
+      }
+
+      message.className = "message good";
+      message.innerHTML =
+        "<strong>Riktig!</strong>" +
+        "<span>Du går videre til neste kort.</span>";
+
+      setTimeout(showQuestion, 750);
+    }
+
+    function wrongAnswer() {
+      document.body.classList.remove("flash-red");
+      void document.body.offsetWidth;
+      document.body.classList.add("flash-red");
+
+      let card = document.getElementById("card" + currentIndex);
+      card.classList.add("wrong");
+
+      message.className = "message bad";
+      message.innerHTML =
+        "<strong>Feil!</strong>" +
+        "<span>Kortet var " + busCards[currentIndex].name + busCards[currentIndex].suit +
+        ". Husk kortet, så trykker du Snu tilbake.</span>";
+
+      questionTitle.innerText = "Tilbake til start";
+      questionText.innerText = "Samme spiller starter på nytt fra kort 1. Kortene er de samme.";
+
+      answerButtons.className = "answers one";
+      answerButtons.innerHTML =
+        '<button class="btn-main" onclick="turnBack()">Snu tilbake</button>';
+    }
+
+    function turnBack() {
+      currentIndex = 0;
+      tries++;
+      locked = false;
+
+      hideAllCards();
+      updateStats();
+      updateActiveCard();
+      showQuestion();
+
+      message.className = "message";
+      message.innerHTML =
+        "<strong>" + players[playerIndex] + " prøver igjen</strong>" +
+        "<span>Husk kortene som allerede ble vist.</span>";
+    }
+
+    function winGame() {
+      results[playerIndex].attempts = tries;
+      results[playerIndex].done = true;
+
+      updateScoreboard();
+      updateStats();
+
+      message.className = "message good";
+      message.innerHTML =
+        "<strong>" + players[playerIndex] + " fullførte!</strong>" +
+        "<span>Du klarte bussen på " + tries + " forsøk.</span>";
+
+      questionTitle.innerText = "Bussen fullført";
+      questionText.innerText = "Trykk videre for neste spiller.";
+
+      if (playerIndex === players.length - 1) {
+        answerButtons.className = "answers one";
+        answerButtons.innerHTML =
+          '<button class="btn-main" onclick="showResults()">Se resultat</button>';
+      } else {
+        answerButtons.className = "answers one";
+        answerButtons.innerHTML =
+          '<button class="btn-main" onclick="nextPlayer()">Neste spiller</button>';
+      }
+    }
+
+    function nextPlayer() {
+      playerIndex++;
+      startNewBusForPlayer();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateScoreboard() {
+      scoreList.innerHTML = "";
+
+      for (let i = 0; i < players.length; i++) {
+        let row = document.createElement("div");
+        row.className = "score-row";
+
+        let nameClass = i === playerIndex ? "active-name" : "";
+
+        let attemptsText = results[i].attempts === null ? "-" : results[i].attempts;
+        let statusText = results[i].done ? "Ferdig" : "Venter";
+
+        row.innerHTML =
+          '<strong class="' + nameClass + '">' + players[i] + '</strong>' +
+          '<span class="score-pill">Forsøk: ' + attemptsText + '</span>' +
+          '<span class="score-pill">' + statusText + '</span>';
+
+        scoreList.appendChild(row);
+      }
+    }
+
+    function showResults() {
+      gameScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+
+      let maxAttempts = 0;
+
+      for (let i = 0; i < results.length; i++) {
+        if (results[i].attempts > maxAttempts) {
+          maxAttempts = results[i].attempts;
+        }
+      }
+
+      let losers = [];
+
+      for (let i = 0; i < results.length; i++) {
+        if (results[i].attempts === maxAttempts) {
+          losers.push(results[i].name);
+        }
+      }
+
+      loserText.innerText = losers.join(", ") + " (" + maxAttempts + " forsøk)";
+
+      resultList.innerHTML = "";
+
+      let sorted = results.slice().sort(function(a, b) {
+        return a.attempts - b.attempts;
+      });
+
+      for (let i = 0; i < sorted.length; i++) {
+        let row = document.createElement("div");
+        row.className = "result-row";
+
+        row.innerHTML =
+          '<strong>' + (i + 1) + ". " + sorted[i].name + '</strong>' +
+          '<span>' + sorted[i].attempts + " forsøk</span>";
+
+        resultList.appendChild(row);
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function playAgain() {
+      resultScreen.classList.add("hidden");
+      gameScreen.classList.remove("hidden");
+
+      for (let i = 0; i < results.length; i++) {
+        results[i].attempts = null;
+        results[i].done = false;
+      }
+
+      playerIndex = 0;
+      startNewBusForPlayer();
+    }
+
+    function backToSetup() {
+      resultScreen.classList.add("hidden");
+      gameScreen.classList.add("hidden");
+      setupScreen.classList.remove("hidden");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+
+  <script src="cookies.js"></script>
+
+</body>
+</html>
