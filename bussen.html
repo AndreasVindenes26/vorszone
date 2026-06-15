@@ -3,18 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Bussen – VorsZone</title>
-  <meta name="description" content="Spill Bussen på VorsZone. Mobilvennlig kortspill med spillere, resultater og hukommelse. 18+. Spill ansvarlig.">
 
   <link rel="icon" type="image/png" href="Bilder/icon-1024.png">
   <link rel="apple-touch-icon" href="Bilder/icon-1024.png">
   <link rel="manifest" href="manifest.json">
-
-  <meta name="theme-color" content="#061722">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="VorsZone">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <style>
     * {
@@ -31,19 +24,13 @@
       background:
         radial-gradient(circle at 15% 5%, rgba(0, 255, 210, 0.20), transparent 30%),
         radial-gradient(circle at 90% 10%, rgba(255, 137, 43, 0.22), transparent 30%),
-        radial-gradient(circle at 50% 100%, rgba(127, 65, 255, 0.16), transparent 35%),
         linear-gradient(145deg, #061722, #05070d 62%, #140716);
       padding: 12px;
       overflow-x: hidden;
     }
 
-    body.flash-red {
-      animation: flashRed 0.45s;
-    }
-
-    body.flash-green {
-      animation: flashGreen 0.45s;
-    }
+    body.flash-red { animation: flashRed 0.45s; }
+    body.flash-green { animation: flashGreen 0.45s; }
 
     @keyframes flashRed {
       0% { background-color: rgba(255,0,60,0.45); }
@@ -80,9 +67,7 @@
       border-radius: 10px;
     }
 
-    .logo span {
-      color: #24ffd2;
-    }
+    .logo span { color: #24ffd2; }
 
     .back-btn {
       text-decoration: none;
@@ -107,8 +92,6 @@
 
     .tag {
       display: inline-flex;
-      gap: 6px;
-      align-items: center;
       padding: 8px 13px;
       border-radius: 999px;
       font-size: 12px;
@@ -148,7 +131,9 @@
       display: none !important;
     }
 
-    .setup-card {
+    .setup-card,
+    .rules-popup,
+    .result-card {
       background:
         linear-gradient(135deg, rgba(36,255,210,0.11), rgba(255,137,43,0.08)),
         rgba(0,0,0,0.20);
@@ -157,9 +142,9 @@
       padding: 17px;
     }
 
-    .setup-card h2 {
+    .setup-card h2,
+    .rules-popup h2 {
       font-size: 28px;
-      letter-spacing: -0.7px;
       text-align: center;
       margin-bottom: 8px;
     }
@@ -207,7 +192,8 @@
       margin: 12px 0 8px;
     }
 
-    select, input {
+    select,
+    input {
       width: 100%;
       padding: 15px;
       border-radius: 17px;
@@ -217,18 +203,6 @@
       font-size: 16px;
       outline: none;
       font-weight: 800;
-    }
-
-    select {
-      appearance: none;
-      background-image:
-        linear-gradient(45deg, transparent 50%, #24ffd2 50%),
-        linear-gradient(135deg, #24ffd2 50%, transparent 50%);
-      background-position:
-        calc(100% - 22px) 21px,
-        calc(100% - 15px) 21px;
-      background-size: 7px 7px, 7px 7px;
-      background-repeat: no-repeat;
     }
 
     .name-grid {
@@ -256,7 +230,6 @@
     .btn-main {
       color: #061014;
       background: linear-gradient(135deg, #24ffd2, #ff9b2d);
-      box-shadow: 0 12px 28px rgba(36,255,210,0.12);
     }
 
     .btn-soft {
@@ -290,6 +263,100 @@
       width: 100%;
       margin-top: 15px;
       font-size: 16px;
+    }
+
+    .rules-top {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .rules-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 24px;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      background:
+        radial-gradient(circle at top, rgba(36,255,210,0.35), transparent 55%),
+        linear-gradient(135deg, rgba(36,255,210,0.15), rgba(255,155,45,0.18));
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 0 30px rgba(36,255,210,0.18);
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .rule-tile {
+      background: rgba(0,0,0,0.27);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 20px;
+      padding: 14px;
+      min-height: 118px;
+    }
+
+    .rule-tile .emoji {
+      font-size: 26px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .rule-tile strong {
+      display: block;
+      color: #24ffd2;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .rule-tile p {
+      color: rgba(255,255,255,0.70);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .rule-tile.big {
+      grid-column: span 2;
+      min-height: auto;
+      background:
+        linear-gradient(135deg, rgba(36,255,210,0.12), rgba(255,155,45,0.10)),
+        rgba(0,0,0,0.25);
+    }
+
+    .rule-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 7px;
+      margin: 14px 0 4px;
+    }
+
+    .flow-step {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 900;
+      color: white;
+    }
+
+    .flow-step span {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .flow-arrow {
+      color: #ffbd45;
+      font-size: 18px;
+      font-weight: 900;
     }
 
     .game-head {
@@ -347,9 +414,7 @@
       background: rgba(255,255,255,0.13);
     }
 
-    .dot.done {
-      background: #ffbd45;
-    }
+    .dot.done { background: #ffbd45; }
 
     .dot.active {
       background: #24ffd2;
@@ -433,7 +498,7 @@
       justify-content: center;
       font-size: 25px;
       font-weight: 900;
-      transition: transform 0.42s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      transition: 0.35s ease;
       border: 2px solid rgba(255,255,255,0.18);
       box-shadow: 0 14px 24px rgba(0,0,0,0.38);
       overflow: hidden;
@@ -448,44 +513,22 @@
     .card.back::before {
       content: "VZ";
       position: absolute;
-      z-index: 3;
       font-size: 19px;
       letter-spacing: 1px;
       color: #24ffd2;
       text-shadow: 0 0 12px rgba(36,255,210,0.48);
     }
 
-    .card.back::after {
-      content: "";
-      position: absolute;
-      inset: 9px;
-      border-radius: 13px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background:
-        radial-gradient(circle, rgba(255,255,255,0.13), transparent 35%),
-        repeating-linear-gradient(45deg, rgba(255,255,255,0.055) 0 5px, transparent 5px 10px);
-    }
-
     .card.done {
       background: radial-gradient(circle at top, #ffffff, #e7e9ee);
       color: #111;
       border-color: rgba(255,255,255,0.88);
-      transform: rotateY(180deg);
-    }
-
-    .card-content {
-      transform: rotateY(180deg);
-      text-align: center;
     }
 
     .card.active {
       border-color: #24ffd2;
       box-shadow: 0 0 25px rgba(36,255,210,0.35), 0 14px 24px rgba(0,0,0,0.38);
       transform: translateY(-4px);
-    }
-
-    .card.done.active {
-      transform: rotateY(180deg) translateY(-4px);
     }
 
     .card.wrong {
@@ -498,26 +541,19 @@
       box-shadow: 0 0 25px rgba(36,255,210,0.42);
     }
 
-    .red {
-      color: #e51d43 !important;
-    }
-
-    .black {
-      color: #111 !important;
-    }
+    .red { color: #e51d43 !important; }
+    .black { color: #111 !important; }
 
     .card-number {
       position: absolute;
       top: 7px;
       left: 8px;
-      z-index: 4;
       font-size: 10px;
       color: rgba(255,255,255,0.48);
     }
 
     .card.done .card-number {
       color: rgba(0,0,0,0.35);
-      transform: rotateY(180deg);
     }
 
     @keyframes wrongShake {
@@ -606,12 +642,6 @@
 
     .result-card {
       text-align: center;
-      background:
-        linear-gradient(135deg, rgba(36,255,210,0.12), rgba(255,137,43,0.09)),
-        rgba(0,0,0,0.24);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 26px;
-      padding: 20px;
     }
 
     .result-card h2 {
@@ -666,10 +696,6 @@
       font-size: 14px;
     }
 
-    .result-row strong {
-      color: white;
-    }
-
     .result-row span {
       text-align: right;
       color: #24ffd2;
@@ -683,34 +709,60 @@
       margin-top: 15px;
     }
 
-    .rules-modern {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
+    .bridge-popup {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(5px);
+      animation: popupFade 1s forwards;
     }
 
-    .rule-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 22px;
-      padding: 15px;
+    .bridge-popup-card {
+      width: min(330px, 86vw);
+      border-radius: 28px;
+      padding: 26px 18px;
+      text-align: center;
+      background:
+        radial-gradient(circle at top, rgba(255,189,69,0.30), transparent 55%),
+        linear-gradient(135deg, rgba(36,255,210,0.18), rgba(255,137,43,0.18)),
+        #111820;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+      animation: bridgePop 0.45s ease;
     }
 
-    .rule-card h3 {
-      color: #24ffd2;
-      margin-bottom: 7px;
-      font-size: 16px;
+    .bridge-popup-card .bridge-emoji {
+      font-size: 70px;
+      display: block;
+      margin-bottom: 8px;
     }
 
-    .rule-card p, .rule-card li {
-      color: rgba(255,255,255,0.68);
-      font-size: 14px;
-      line-height: 1.55;
+    .bridge-popup-card h2 {
+      font-size: 30px;
+      margin-bottom: 5px;
+      color: #ffbd45;
     }
 
-    .rule-card ul {
-      padding-left: 18px;
+    .bridge-popup-card p {
+      color: rgba(255,255,255,0.75);
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    @keyframes bridgePop {
+      0% { transform: scale(0.78) translateY(20px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    @keyframes popupFade {
+      0% { opacity: 0; }
+      15% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; }
     }
 
     .safe {
@@ -734,6 +786,10 @@
     }
 
     @media (max-width: 520px) {
+      body {
+        padding: 10px;
+      }
+
       h1 {
         font-size: 42px;
       }
@@ -743,12 +799,24 @@
         border-radius: 26px;
       }
 
-      .setup-card {
-        padding: 15px;
-      }
-
       .mini-rules {
         grid-template-columns: 1fr;
+      }
+
+      .rules-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rule-tile.big {
+        grid-column: span 1;
+      }
+
+      .rule-flow {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-arrow {
+        transform: rotate(90deg);
       }
 
       .game-head {
@@ -763,16 +831,6 @@
         width: 63px;
         height: 90px;
         font-size: 23px;
-        border-radius: 15px;
-      }
-
-      .row {
-        gap: 7px;
-      }
-
-      .bridge {
-        font-size: 10px;
-        padding: 7px 11px;
       }
     }
 
@@ -783,7 +841,8 @@
         font-size: 20px;
       }
 
-      .answers, .result-buttons {
+      .answers,
+      .result-buttons {
         grid-template-columns: 1fr;
       }
 
@@ -855,13 +914,93 @@
 
         <div class="name-grid" id="nameInputs"></div>
 
-        <button class="btn-main start-btn" onclick="startGame()">Start bussen</button>
+        <button class="btn-main start-btn" onclick="showRulesCard()">Start bussen</button>
 
         <p class="safe">
           18+ | Kun for underholdning. Ingen skal presses til å drikke.
         </p>
       </div>
     </section>
+<!-- Bruk samme kode som forrige, men bytt UT hele rulesScreen med denne delen -->
+
+<section class="screen hidden" id="rulesScreen">
+  <div class="rules-popup">
+    <div class="rules-top">
+      <div class="rules-icon">🚌</div>
+      <h2>Slik spiller du</h2>
+      <p class="intro">
+        Målet er å komme gjennom alle kortene uten å bomme. Bommer du, starter samme spiller på nytt.
+      </p>
+    </div>
+
+    <div class="rule-flow">
+      <div class="flow-step">
+        <span>🔴⚫</span>
+        Rød / svart
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span>⬆️⬇️</span>
+        Over / under
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span>🏁</span>
+        Fullfør
+      </div>
+    </div>
+
+    <div class="rules-grid">
+      <div class="rule-tile">
+        <span class="emoji">🔴⚫</span>
+        <strong>1. Gjett farge</strong>
+        <p>På noen kort skal du gjette om kortet er rødt eller svart.</p>
+      </div>
+
+      <div class="rule-tile">
+        <span class="emoji">⬆️⬇️</span>
+        <strong>2. Gjett over/under</strong>
+        <p>På noen kort skal du gjette om neste kort er høyere eller lavere enn kortet før.</p>
+      </div>
+
+      <div class="rule-tile">
+        <span class="emoji">🟰</span>
+        <strong>Samme kortverdi</strong>
+        <p>Hvis kortene har samme verdi, blir både over og under godkjent.</p>
+      </div>
+
+      <div class="rule-tile">
+        <span class="emoji">🌉</span>
+        <strong>Bro = 1 slurk</strong>
+        <p>Når du kommer til en bro, får du opp en popup og tar 1 slurk.</p>
+      </div>
+
+      <div class="rule-tile">
+        <span class="emoji">🔁</span>
+        <strong>Bommer du?</strong>
+        <p>Da ser du kortet, men samme spiller må starte på nytt fra kort 1.</p>
+      </div>
+
+      <div class="rule-tile">
+        <span class="emoji">🧠</span>
+        <strong>Kortene endres ikke</strong>
+        <p>Kortene er like etter feil, så prøv å huske kortene du har sett.</p>
+      </div>
+
+      <div class="rule-tile big">
+        <span class="emoji">👤</span>
+        <strong>Én spiller om gangen</strong>
+        <p>Samme spiller fortsetter helt til han/hun klarer hele bussen. Etterpå er det neste spiller sin tur.</p>
+      </div>
+    </div>
+
+    <button class="btn-main start-btn" onclick="startGame()">Jeg skjønner – start spillet</button>
+
+    <p class="safe">
+      18+ | Kun for underholdning. Bruk gjerne vann eller alkoholfritt.
+    </p>
+  </div>
+</section>
 
     <section class="screen hidden" id="gameScreen">
 
@@ -944,44 +1083,6 @@
       </div>
     </section>
 
-    <section class="rules-modern">
-      <div class="rule-card">
-        <h3>Hva gjør du?</h3>
-        <p>
-          Se på spørsmålet under kortene. Trykk på svaret du tror er riktig.
-          Kortet snur seg med en gang.
-        </p>
-      </div>
-
-      <div class="rule-card">
-        <h3>Ved feil</h3>
-        <p>
-          Du får se kortet først. Når alle har sett det, trykker du <strong>Snu tilbake</strong>.
-          Kortene er de samme, så prøv å huske dem.
-        </p>
-      </div>
-
-      <div class="rule-card">
-        <h3>Rekkefølge</h3>
-        <ul>
-          <li>Kort 1: Rød eller svart</li>
-          <li>Kort 2: Over eller under kort 1</li>
-          <li>Kort 3: Rød eller svart</li>
-          <li>Bro 1: ta 1 slurk</li>
-          <li>Kort 4: Rød eller svart</li>
-          <li>Kort 5: Over eller under kort 4</li>
-          <li>Bro 2: ta 1 slurk</li>
-          <li>Kort 6: Rød eller svart</li>
-          <li>Kort 7: Over eller under kort 6</li>
-          <li>Kort 8: Rød eller svart</li>
-        </ul>
-      </div>
-
-      <p class="safe">
-        VorsZone oppfordrer ikke til overdreven alkoholkonsum. Bruk vann eller alkoholfritt hvis ønskelig.
-      </p>
-    </section>
-
   </main>
 
   <footer>
@@ -1020,6 +1121,7 @@
     let locked = false;
 
     const setupScreen = document.getElementById("setupScreen");
+    const rulesScreen = document.getElementById("rulesScreen");
     const gameScreen = document.getElementById("gameScreen");
     const resultScreen = document.getElementById("resultScreen");
 
@@ -1068,6 +1170,12 @@
       }
     }
 
+    function showRulesCard() {
+      setupScreen.classList.add("hidden");
+      rulesScreen.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     function startGame() {
       players = [];
       results = [];
@@ -1091,6 +1199,7 @@
       }
 
       setupScreen.classList.add("hidden");
+      rulesScreen.classList.add("hidden");
       resultScreen.classList.add("hidden");
       gameScreen.classList.remove("hidden");
 
@@ -1118,7 +1227,7 @@
       message.className = "message";
       message.innerHTML =
         "<strong>" + players[playerIndex] + " starter</strong>" +
-        "<span>Trykk på svaret du tror er riktig. Kortet snur seg automatisk.</span>";
+        "<span>Samme spiller må klare hele bussen før neste spiller får prøve.</span>";
     }
 
     function makeDeck() {
@@ -1165,7 +1274,7 @@
 
       card.innerHTML =
         '<span class="card-number">' + (index + 1) + '</span>' +
-        '<div class="card-content">' + cardData.name + cardData.suit + '</div>';
+        '<div>' + cardData.name + cardData.suit + '</div>';
     }
 
     function updateActiveCard() {
@@ -1244,7 +1353,9 @@
         let previousCard = busCards[currentIndex - 1];
 
         questionTitle.innerText = "Kort " + (currentIndex + 1);
-        questionText.innerText = "Forrige kort var " + previousCard.name + previousCard.suit + ". Blir neste kort over eller under?";
+        questionText.innerText =
+          "Forrige kort var " + previousCard.name + previousCard.suit +
+          ". Blir neste kort over eller under? Hvis det er samme verdi, blir begge svar riktig.";
 
         answerButtons.className = "answers";
         answerButtons.innerHTML =
@@ -1279,7 +1390,7 @@
         let current = busCards[currentIndex].number;
 
         if (current === previous) {
-          correct = false;
+          correct = true;
         } else if (answer === "higher" && current > previous) {
           correct = true;
         } else if (answer === "lower" && current < previous) {
@@ -1305,22 +1416,26 @@
       currentIndex++;
 
       if (currentIndex === 3) {
+        showBridgePopup(1);
+
         message.className = "message good";
         message.innerHTML =
           "<strong>Bro 1 passert!</strong>" +
           "<span>Ta 1 slurk. Fortsett til neste kort.</span>";
 
-        setTimeout(showQuestion, 1050);
+        setTimeout(showQuestion, 1500);
         return;
       }
 
       if (currentIndex === 5) {
+        showBridgePopup(2);
+
         message.className = "message good";
         message.innerHTML =
           "<strong>Bro 2 passert!</strong>" +
           "<span>Ta 1 slurk. Nå er det siste del av bussen.</span>";
 
-        setTimeout(showQuestion, 1050);
+        setTimeout(showQuestion, 1100);
         return;
       }
 
@@ -1335,6 +1450,24 @@
         "<span>Du går videre til neste kort.</span>";
 
       setTimeout(showQuestion, 750);
+    }
+
+    function showBridgePopup(number) {
+      let popup = document.createElement("div");
+      popup.className = "bridge-popup";
+
+      popup.innerHTML =
+        '<div class="bridge-popup-card">' +
+          '<span class="bridge-emoji">🌉</span>' +
+          '<h2>Bro ' + number + '</h2>' +
+          '<p>Ta 1 slurk</p>' +
+        '</div>';
+
+      document.body.appendChild(popup);
+
+      setTimeout(function() {
+        popup.remove();
+      }, 1000);
     }
 
     function wrongAnswer() {
@@ -1352,7 +1485,7 @@
         ". Husk kortet, så trykker du Snu tilbake.</span>";
 
       questionTitle.innerText = "Tilbake til start";
-      questionText.innerText = "Samme spiller starter på nytt fra kort 1. Kortene er de samme.";
+      questionText.innerText = "Samme spiller starter på nytt fra kort 1. Kortene er de samme og endres ikke.";
 
       answerButtons.className = "answers one";
       answerButtons.innerHTML =
@@ -1372,7 +1505,7 @@
       message.className = "message";
       message.innerHTML =
         "<strong>" + players[playerIndex] + " prøver igjen</strong>" +
-        "<span>Husk kortene som allerede ble vist.</span>";
+        "<span>Kortene er like som før. Husk kortene som allerede ble vist.</span>";
     }
 
     function winGame() {
@@ -1487,6 +1620,7 @@
     function backToSetup() {
       resultScreen.classList.add("hidden");
       gameScreen.classList.add("hidden");
+      rulesScreen.classList.add("hidden");
       setupScreen.classList.remove("hidden");
 
       window.scrollTo({ top: 0, behavior: "smooth" });
